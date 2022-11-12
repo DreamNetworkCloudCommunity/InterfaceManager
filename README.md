@@ -3,9 +3,15 @@
 
 ## Instruction
 
+**NE PAS OUBLIER DE METTRE EN VERSION DITE "BUILDS" DE DREAMNETWORK**
+**DANS LE FICHIER "launcher.info" SANS ÇA RIEN NE MARCHE !!!!!!!**
+
+![img](https://i.gyazo.com/0647588c7a1185b61952b9c2d7c6de1a.png)
+
 Placez le fichier "[DN] InterfaceManager-1.0-SNAPSHOT.jar" dans le dossier "addons"
 
 #### ![img](https://i.gyazo.com/d3350e6ef0efb13596a558cc104150af.png)
+
 
 ##### Pensez à bien mettre sur "true" cette option pour le bon fonctionnement du plugin
 
