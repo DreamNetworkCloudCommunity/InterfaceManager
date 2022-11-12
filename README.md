@@ -13,7 +13,7 @@ Placez le fichier "[DN] InterfaceManager-1.0-SNAPSHOT.jar" dans le dossier "addo
 #### ![img](https://i.gyazo.com/d3350e6ef0efb13596a558cc104150af.png)
 
 
-##### Pensez à bien mettre sur "true" cette option pour le bon fonctionnement du plugin
+##### Pensez à bien mettre sur "true" cette option dans le fichier network.yml se trouvant dans le dossier plugin de votre proxy pour le bon fonctionnement du plugin
 
 ## Commandes
 
