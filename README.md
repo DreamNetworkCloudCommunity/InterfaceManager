@@ -3,7 +3,7 @@
 
 ## Instruction
 
-> Placez le fichier "[DN] InterfaceManager-1.0-SNAPSHOT.jar" dans le dossier "addons"
+Placez le fichier "[DN] InterfaceManager-1.0-SNAPSHOT.jar" dans le dossier "addons"
 
 #### ![img](https://i.gyazo.com/d3350e6ef0efb13596a558cc104150af.png)
 
@@ -25,3 +25,4 @@ Quelques screens ....
 
 ![img](https://i.gyazo.com/0623b1929a27c08e4182ef4193ed29e5.png)
 
+> Fait par Joupiter | Si vous avez quelques problèmes ou erreurs veuillez me contacté via le discord de DreamNetwork : https://discord.com/invite/BpqR7W32XJ
