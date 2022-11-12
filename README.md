@@ -23,7 +23,7 @@ Permission de cette commande : **im.admin**
 
 ## Screens
 
-Quelques screens .....
+Quelques screens ......
 
 ![img](https://i.gyazo.com/bc51c5f1567660a57df25ed3a976a13c.png)
 
