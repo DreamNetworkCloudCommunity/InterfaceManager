@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'fr.joupi'
+version '1.0-SNAPSHOT'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
