@@ -43,23 +43,23 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
                                 DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnServer());
                         }));
 
-        setItem(21, getServer().isStarted() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cÉteint").addLore(" ", "&7Le serveur est allumer", "&7Clic pour éteindre le serveur").build(),
+        setItem(21, getServer().isStarted() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cÉteindre").addLore(" ", "&7Le serveur est &aallumer", "&7Clic pour &céteindre &7le serveur").build(),
                 event -> {
                     getDnServer().stop();
                     close((Player) event.getWhoClicked());
                     Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint le serveur &b" + getServer().getName());
                 })
-                : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aAllumer").addLore(" ", "&7Le serveur est éteint", "&7Clic pour allumer le serveur").build(),
+                : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aAllumer").addLore(" ", "&7Le serveur est &céteint", "&7Clic pour &aallumer &7le serveur").build(),
                 event -> {
                     DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getServer().getName());
                     close((Player) event.getWhoClicked());
                     Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer le serveur &b" + getServer().getName());
                 }));
 
-        setItem(23, !getServer().isStarted() ? new GuiButton(new ItemBuilder(Material.ANVIL).setName("&cModification impossible").build()) :
+        setItem(23, !getServer().isStarted() ? new GuiButton(new ItemBuilder(Material.ANVIL).setName("&7» &cModification impossible").build()) :
                                            new GuiButton(new ItemBuilder(Material.ANVIL).setName("&cModifier").build(), event -> new ServerStaticEditGui(getPlugin(), getDnServer()).onOpen((Player) event.getWhoClicked())));
 
-        setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour à liste des catégories").build(),
+        setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à liste des catégories").build(),
                 event -> new ServerCategoryGui(getPlugin()).onOpen((Player) event.getWhoClicked())));
     }
 }

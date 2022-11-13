@@ -37,7 +37,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 
         setItem(50, nextPageButton());
 
-        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cFermer").build(),
+        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cFermer").build(),
                 event -> close((Player) event.getWhoClicked())));
 
     }

@@ -50,7 +50,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
         setItem(50, nextPageButton());
 
-        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour à liste des catégories").build(),
+        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à liste des catégories").build(),
                 event -> new ServerCategoryGui(getPlugin()).onOpen((Player) event.getWhoClicked())));
     }
 
@@ -73,7 +73,8 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     }
 
     private GuiButton stopAllServerButton() {
-        return getCategory().getServers().values().isEmpty() ? new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cAucun serveur n'est allumé !").build()) : new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cÉteindre tout les serveurs").build(),
+        return getCategory().getServers().values().isEmpty() ? new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cAucun serveur n'est allumé !").build())
+                : new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cÉteindre tout les serveurs").build(),
                 event -> {
                     getCategory().getServers().values().forEach(DNServer::stop);
                     Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint tout les serveurs de la catégorie &b" + getCategory().getName());
@@ -82,8 +83,8 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     }
 
     private GuiButton addNewServerButton() {
-        return getCategory().getMods().equals(Mods.STATIC) ? new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&cImpossible ").addLore(" ").addLore("&7Vous ne pouvez démarrer de nouveau", "&7serveur quand il est en mode &b" + StringUtils.capitalize(Mods.STATIC.name().toLowerCase())).build())
-                : new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&eDémarrer un nouveau serveur").build(),
+        return getCategory().getMods().equals(Mods.STATIC) ? new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &cImpossible ").addLore(" ").addLore("&7Vous ne pouvez démarrer de nouveau", "&7serveur quand il est en mode &b" + StringUtils.capitalize(Mods.STATIC.name().toLowerCase())).build())
+                : new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &eDémarrer un nouveau serveur").build(),
                 event -> {
                     DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getCategory().getName());
                     close((Player) event.getWhoClicked());

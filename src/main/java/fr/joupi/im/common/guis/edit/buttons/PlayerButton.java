@@ -8,7 +8,7 @@ import fr.joupi.im.utils.item.SkullBuilder;
 public class PlayerButton extends GuiButton {
 
     public PlayerButton(DNPlayer player) {
-        super(new ItemBuilder(SkullBuilder.itemFromName(player.getName())).setName("&b" + player.getName()).build(),
+        super(new ItemBuilder(SkullBuilder.itemFromName(player.getName())).setName("&7» &b" + player.getName()).build(),
                 event -> event.getWhoClicked().sendMessage("open player edit menu"));
     }
 

@@ -25,13 +25,13 @@ public class ServerStaticEditGui extends Gui<InterfaceManager> {
     public void setup() {
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
-        setItem(21, new GuiButton(new ItemBuilder(Material.PAINTING).setName("&eMaintenance").build(),
-                event -> new ServerWhitelistGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked())));
+        setItem(21, new GuiButton(new ItemBuilder(Material.PAINTING).setName("&7» &eMaintenance").build(),
+                event -> new ServerWhitelistGui(getPlugin(), getServer(), true).onOpen((Player) event.getWhoClicked())));
 
-        setItem(23, new GuiButton(new ItemBuilder(Material.CHEST).setName("&6Joueurs").build(),
+        setItem(23, new GuiButton(new ItemBuilder(Material.CHEST).setName("&7» &6Joueurs").build(),
                 event -> new ServerPlayerListGui(getPlugin(), getServer(), true).onOpen((Player) event.getWhoClicked())));
 
-        setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour").build(),
+        setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour").build(),
                 event -> new ServerStaticGui(getPlugin(), getServer().getRemoteService()).onOpen((Player) event.getWhoClicked())));
     }
 

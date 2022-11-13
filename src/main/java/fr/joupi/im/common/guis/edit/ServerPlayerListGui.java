@@ -54,7 +54,7 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
 
         setItem(50, nextPageButton());
 
-        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour à l'édition").build(),
+        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),
                 event -> {
                     if (isFromStatic()) new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
                     else new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
@@ -81,7 +81,7 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
     }
 
     private GuiButton kickAllPlayersButton() {
-        return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cKick tout les joueurs").build(), event -> {
+        return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick tout les joueurs").build(), event -> {
             DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_RETRANSMISSION, new Message().set("IMOrder", "kickall"), getServer().getFullName());
             close((Player) event.getWhoClicked());
             Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick tout les joueurs du serveur &b" + getServer().getFullName());
