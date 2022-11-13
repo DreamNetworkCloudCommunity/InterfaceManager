@@ -13,13 +13,8 @@ import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.lang.reflect.Field;
 
 public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerButton> {
 
@@ -27,19 +22,15 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
     private final DNServer server;
 
     @Getter
-    private boolean fromStatic;
-
-    public ServerPlayerListGui(InterfaceManager plugin, DNServer server) {
-        super(plugin, "&7» &eJoueurs &7(" + server.getPlayers().size() + "&7)", 6, 21);
-        this.server = server;
-        this.fromStatic = false;
-        server.getPlayers()
-                .forEach(dnPlayer -> getPagination().addElement(new PlayerButton(dnPlayer)));
-    }
+    private final boolean fromStatic;
 
     public ServerPlayerListGui(InterfaceManager plugin, DNServer server, boolean fromStatic) {
-        this(plugin, server);
+        super(plugin, "&7» &eJoueurs &7(" + server.getPlayers().size() + "&7)", 6, 21);
+        this.server = server;
         this.fromStatic = fromStatic;
+
+        server.getPlayers()
+                .forEach(dnPlayer -> getPagination().addElement(new PlayerButton(plugin, server, dnPlayer, isFromStatic())));
     }
 
     @Override
@@ -59,7 +50,6 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
                     if (isFromStatic()) new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
                     else new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
                 }));
-
     }
 
     @Override

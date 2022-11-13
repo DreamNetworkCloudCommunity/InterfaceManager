@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 
 @Getter
 @AllArgsConstructor
-public class PlayerListener implements Listener {
+public class GlobalListener implements Listener {
 
     private final InterfaceManager plugin;
 
@@ -41,9 +41,13 @@ public class PlayerListener implements Listener {
         DNSpigotAPI.getInstance().getRequestManager().getBasicClientHandler().getResponses().add(new ClientResponse() {
             @Override
             protected void onResponse(Message message, ChannelHandlerContext ctx) {
-                if (message.contains("IMOrder"))
+                if (message.contains("IMOrder")) {
                     if (message.getString("IMOrder").equals("kickall"))
                         Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
+
+                    if (message.getString("IMOrder").equals("kickPlayer"))
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).kickPlayer(""));
+                }
             }
         });
     }

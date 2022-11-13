@@ -1,8 +1,6 @@
 package fr.joupi.im.common.guis.edit;
 
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.RequestType;
-import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.Gui;

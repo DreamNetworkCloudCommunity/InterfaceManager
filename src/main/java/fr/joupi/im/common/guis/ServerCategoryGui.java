@@ -8,7 +8,6 @@ import fr.joupi.im.utils.gui.PageableGui;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 

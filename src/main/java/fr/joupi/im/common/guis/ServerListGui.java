@@ -16,7 +16,6 @@ import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
