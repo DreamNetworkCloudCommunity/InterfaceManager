@@ -3,7 +3,6 @@ package fr.joupi.im.utils.item;
 import fr.joupi.im.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -30,6 +29,10 @@ public class ItemBuilder {
     public ItemBuilder(Material material) {
         this(new ItemStack(material));
     }
+
+    /*public ItemBuilder(XMaterial material) {
+        this(XMaterial.matchXMaterial(Objects.requireNonNull(material.parseMaterial())));
+    }*/
 
     public static ItemBuilder from(ItemStack item) {
         return new ItemBuilder(item);
@@ -211,11 +214,6 @@ public class ItemBuilder {
         PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
         potionMeta.addCustomEffect(new PotionEffect(effectType, duration, amplifier), true);
         item.setItemMeta(potionMeta);
-        return this;
-    }
-
-    public ItemBuilder setDyeColor(DyeColor color) {
-        item.setDurability(color.getData());
         return this;
     }
 

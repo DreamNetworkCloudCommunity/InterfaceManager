@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class Loader extends AbstractHandler<InterfaceManager> {
 
     private final CommandHandler commandHandler;
-    @Setter private DNChannel dnChannel;
+    private final DNChannel dnChannel;
 
     public Loader(InterfaceManager plugin) {
         super(plugin);

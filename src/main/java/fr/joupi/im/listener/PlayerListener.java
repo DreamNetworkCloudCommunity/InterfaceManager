@@ -11,7 +11,6 @@ import be.alexandre01.dnplugin.plugins.spigot.api.events.player.NetworkSwitchSer
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
 import be.alexandre01.dnplugin.utils.messages.Message;
 import fr.joupi.im.InterfaceManager;
-import fr.joupi.im.utils.threading.MultiThreading;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -38,38 +37,15 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onServerAttached(ServerAttachedEvent event) {
         DNSpigotAPI.getInstance().autoRefreshPlayers();
-        DNChannelManager channelManager = NetworkBaseAPI.getInstance().getChannelManager();
-        DNChannel dnChannel = new DNChannel("IMChannel");
-
-        channelManager.registerChannel(dnChannel, true, new RegisterListener() {@Override public void onNewDataReceived(LinkedTreeMap<String, Object> linkedTreeMap) {}});
 
         DNSpigotAPI.getInstance().getRequestManager().getBasicClientHandler().getResponses().add(new ClientResponse() {
             @Override
             protected void onResponse(Message message, ChannelHandlerContext ctx) {
-                if (message.contains("instruction")) {
-                    String ins = message.getString("instruction");
-
-                    if (ins.equals("kickall")) {
-                        if (message.get("serverTarget").equals(DNSpigotAPI.getInstance().getServerName() + "-" + DNSpigotAPI.getInstance().getID()))
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(),
-                                    () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
-                    }
-                }
+                if (message.contains("IMOrder"))
+                    if (message.getString("IMOrder").equals("kickall"))
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
             }
         });
-
-        /*dnChannel.addInterceptor(channelPacket -> {
-            if (channelPacket.getMessage().contains("instruction")) {
-                String ins = channelPacket.getMessage().getString("instruction");
-
-               if (ins.equals("kickall")) {
-                   if (channelPacket.getMessage().get("serverTarget").equals(DNSpigotAPI.getInstance().getServerName() + "-" + DNSpigotAPI.getInstance().getID()))
-                       Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(),
-                               () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
-               }
-           }
-        });*/
-
     }
 
 }

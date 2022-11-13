@@ -2,10 +2,12 @@ package fr.joupi.im.common.guis.edit;
 
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import fr.joupi.im.InterfaceManager;
+import fr.joupi.im.common.guis.ServerListGui;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.Gui;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.item.ItemBuilder;
+import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -23,7 +25,7 @@ public class ServerEditGui extends Gui<InterfaceManager> {
 
     @Override
     public void setup() {
-        setItems(getBorders(), new ItemBuilder(Material.STAINED_GLASS_PANE).setDyeColor(DyeColor.CYAN).setName("&a").build());
+        setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
         setItem(20, new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cÉteindre le serveur").build(), event -> {
             getServer().stop();
@@ -32,13 +34,12 @@ public class ServerEditGui extends Gui<InterfaceManager> {
         }));
 
         setItem(22, new GuiButton(new ItemBuilder(Material.PAINTING).setName("&eMaintenance").build(),
-                event -> event.getWhoClicked().sendMessage("MAINTENANCE MENU OPEN")));
+                event -> new ServerWhitelistGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked())));
 
         setItem(24, new GuiButton(new ItemBuilder(Material.CHEST).setName("&6Joueurs").build(),
                 event -> new ServerPlayerListGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked())));
 
-        setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cFermer").build(),
-                event -> close((Player) event.getWhoClicked())));
+        setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour à la liste des serveurs").build(),
+                event -> new ServerListGui(getPlugin(), Utils.findPlayer((Player) event.getWhoClicked()), getServer().getRemoteService()).onOpen((Player) event.getWhoClicked())));
     }
-
 }

@@ -7,6 +7,7 @@ import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.gui.PageableGui;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
+import fr.joupi.im.utils.item.XMaterial;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                 setItem(24 + i, getPage().getElements().get(i));
         }
 
-        setItems(getBorders(), new ItemBuilder(Material.STAINED_GLASS_PANE).setName("&a").setDyeColor(DyeColor.CYAN).build());
+        setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
         setItem(48, previousPageButton());
 

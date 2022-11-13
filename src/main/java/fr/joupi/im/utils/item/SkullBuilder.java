@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.UUID;
 
 @UtilityClass

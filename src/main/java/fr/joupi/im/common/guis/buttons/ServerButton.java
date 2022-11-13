@@ -9,6 +9,7 @@ import fr.joupi.im.common.guis.edit.ServerEditGui;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.item.ItemBuilder;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,8 +39,8 @@ public class ServerButton extends GuiButton {
 
     public ItemStack getServerItem(DNPlayer dnPlayer, DNServer server) {
         return dnPlayer.getServer().getFullName().equals(server.getFullName()) ?
-                new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&a" + server.getFullName()).addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + server.getNetworkBaseAPI().getInfo(), "&7Joueurs: &b" + server.getPlayers().size(), "","&eClic droit pour modifier", "&7(Vous êtes connecté sur ce serveur)").build() :
-                new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&a" + server.getFullName()).addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + server.getNetworkBaseAPI().getInfo(), "&7Joueurs: &b" + server.getPlayers().size(), "","&eClic droit pour modifier").build();
+                new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getFullName()).addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + server.getNetworkBaseAPI().getInfo(), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier", "&7(Vous êtes connecté sur ce serveur)").build() :
+                new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getFullName()).addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + server.getNetworkBaseAPI().getInfo(), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier").build();
     }
 
 }

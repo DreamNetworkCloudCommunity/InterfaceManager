@@ -5,6 +5,7 @@ import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.api.request.RequestType;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
+import be.alexandre01.dnplugin.utils.Mods;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.buttons.ServerButton;
 import fr.joupi.im.utils.Utils;
@@ -12,6 +13,7 @@ import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.gui.PageableGui;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
+import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.DyeColor;
@@ -36,7 +38,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
     @Override
     public void setup() {
-        setItems(getBorders(), new ItemBuilder(Material.STAINED_GLASS_PANE).setName("&a").setDyeColor(DyeColor.CYAN).build());
+        setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
         getPage().getElements().forEach(this::addItem);
 
@@ -48,8 +50,8 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
         setItem(50, nextPageButton());
 
-        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cFermer").build(),
-                event -> close((Player) event.getWhoClicked())));
+        setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&cRetour à liste des catégories").build(),
+                event -> new ServerCategoryGui(getPlugin()).onOpen((Player) event.getWhoClicked())));
     }
 
     @Override
@@ -71,18 +73,21 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     }
 
     private GuiButton stopAllServerButton() {
-        return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cÉteindre tout les serveurs").build(), event -> {
-            getCategory().getServers().values().forEach(DNServer::stop);
-            close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint tout les serveurs de la catégorie &b" + getCategory().getName());
+        return getCategory().getServers().values().isEmpty() ? new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cAucun serveur n'est allumé !").build()) : new GuiButton(new ItemBuilder(Material.BARRIER).setName("&cÉteindre tout les serveurs").build(),
+                event -> {
+                    getCategory().getServers().values().forEach(DNServer::stop);
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint tout les serveurs de la catégorie &b" + getCategory().getName());
+                    close((Player) event.getWhoClicked());
         });
     }
 
     private GuiButton addNewServerButton() {
-        return new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&eDémarrer un nouveau serveur").build(), event -> {
-            DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getCategory().getName());
-            close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer un nouveau serveur de type &b" + getCategory().getName());
+        return getCategory().getMods().equals(Mods.STATIC) ? new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&cImpossible ").addLore(" ").addLore("&7Vous ne pouvez démarrer de nouveau", "&7serveur quand il est en mode &b" + StringUtils.capitalize(Mods.STATIC.name().toLowerCase())).build())
+                : new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&eDémarrer un nouveau serveur").build(),
+                event -> {
+                    DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getCategory().getName());
+                    close((Player) event.getWhoClicked());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer un nouveau serveur de type &b" + getCategory().getName());
         });
     }
 
