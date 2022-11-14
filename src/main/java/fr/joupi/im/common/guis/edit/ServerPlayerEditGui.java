@@ -13,6 +13,7 @@ import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -44,7 +45,7 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
 
         setItem(20, kickPlayerButton());
 
-        setItem(22, new GuiButton(new ItemBuilder(Material.COMPASS).setName("&7» &eTéléportation vers ce joueur").build()));
+        setItem(22, teleportToPlayerButton());
 
         setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à la liste de joueurs").build(),
                 event -> {
@@ -58,6 +59,20 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
             DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_RETRANSMISSION, new Message().set("IMOrder", "kickPlayer").set("playerName", getDnPlayer().getName()), getServer().getFullName());
             close((Player) event.getWhoClicked());
             Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick " + getDnPlayer().getName() + " du serveur &b" + getServer().getFullName());
+        });
+    }
+
+    private GuiButton teleportToPlayerButton() {
+        return new GuiButton(new ItemBuilder(Material.COMPASS).setName("&7» &eTéléportation vers ce joueur").build(), event -> {
+            if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getFullName().equals(getDnPlayer().getServer().getFullName())) {
+                close((Player) event.getWhoClicked());
+                event.getWhoClicked().teleport(Bukkit.getPlayer(getDnPlayer().getName()));
+            } else {
+                DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnPlayer().getServer().getFullName());
+                DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_RETRANSMISSION, new Message().set("IMOrder", "teleportPlayer").set("playerName", event.getWhoClicked().getName()).set("targetPlayerName", getDnPlayer().getName()), getServer().getFullName());
+            }
+
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getFullName());
         });
     }
 

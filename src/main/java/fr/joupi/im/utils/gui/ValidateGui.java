@@ -38,11 +38,11 @@ public class ValidateGui<P extends JavaPlugin> extends Gui<P> {
 
 
     public GuiButton confirmButton() {
-        return new GuiButton(new ItemBuilder(XMaterial.GREEN_STAINED_GLASS_PANE.parseItem()).setName("&aConfirmer").build(), event -> getValidateAction().validateAction());
+        return new GuiButton(new ItemBuilder(XMaterial.GREEN_STAINED_GLASS_PANE.parseItem()).setName("&7» &aConfirmer").build(), event -> getValidateAction().validateAction());
     }
 
     public GuiButton denyButton() {
-        return new GuiButton(new ItemBuilder(XMaterial.RED_STAINED_GLASS_PANE.parseItem()).setName("&cAnnuler").build(),
+        return new GuiButton(new ItemBuilder(XMaterial.RED_STAINED_GLASS_PANE.parseItem()).setName("&7» &cAnnuler").build(),
                 event -> getValidateAction().denyAction(getPreviousGui(), (Player) event.getWhoClicked()));
     }
 }

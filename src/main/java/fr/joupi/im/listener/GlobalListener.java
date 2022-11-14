@@ -42,11 +42,17 @@ public class GlobalListener implements Listener {
             @Override
             protected void onResponse(Message message, ChannelHandlerContext ctx) {
                 if (message.contains("IMOrder")) {
+
                     if (message.getString("IMOrder").equals("kickall"))
                         Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
 
                     if (message.getString("IMOrder").equals("kickPlayer"))
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).kickPlayer(""));
+                        if (Bukkit.getPlayer(message.getString("playerName")).isOnline())
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).kickPlayer(""));
+
+                    if (message.getString("IMOrder").equals("teleportPlayer"))
+                        if (Bukkit.getPlayer(message.getString("targetPlayerName")).isOnline())
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).teleport(Bukkit.getPlayer(message.getString("targetPlayerName"))));
                 }
             }
         });

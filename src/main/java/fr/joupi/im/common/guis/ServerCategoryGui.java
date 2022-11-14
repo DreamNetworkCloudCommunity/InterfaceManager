@@ -70,7 +70,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
     private GuiButton stopAllServerButton() {
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cÉteindre tout les serveurs").build(),
                 event ->
-                    new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir", "&céteindre &7tout les serveurs en ligne ?").build(), this,
+                    new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir &céteindre", "&7tout les serveurs en ligne ?").build(), this,
                             () -> {
                                 DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(DNServer::stop));
                                 close((Player) event.getWhoClicked());
