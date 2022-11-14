@@ -35,7 +35,7 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
 
         setItem(4, !getServer().isStarted() ?
                 new GuiButton(new ItemBuilder(Material.PAPER).setAmount(0).setName("&7» &a" + getServer().getName()).addLore("", "&7État: &cOff", "&7Version: &cN/A", "&7Joueurs: &b0", "", "&7(Serveur éteint)").build()) :
-                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(getDnServer().getPlayers().size()).setName("&a" + getServer().getName()).addLore("", "&7État: &aOn", "&7Version: &b" + getDnServer().getNetworkBaseAPI().getInfo(), "&7Joueurs: &b" + getDnServer().getPlayers().size(), "", "&eClic gauche pour se téléporter").build(),
+                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(getDnServer().getPlayers().size()).setName("&a" + getServer().getName()).addLore("", "&7État: &aOn", "&7Version: &b" + Utils.getServerVersion(getDnServer()), "&7Joueurs: &b" + getDnServer().getPlayers().size(), "", "&eClic gauche pour se téléporter").build(),
                         event -> {
                             if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getFullName().equals(getDnServer().getFullName()))
                                 Utils.sendMessages((Player) event.getWhoClicked(), "&aVous êtes déjà sur le serveur &b" + getDnServer().getFullName());

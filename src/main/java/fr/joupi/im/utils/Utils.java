@@ -2,6 +2,7 @@ package fr.joupi.im.utils;
 
 import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
+import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
@@ -40,6 +41,10 @@ public class Utils {
         AtomicInteger finalCount = new AtomicInteger(0);
         DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
         return finalCount.get();
+    }
+
+    public String getServerVersion(DNServer dnServer) {
+        return dnServer.getNetworkBaseAPI().getInfo().replaceAll("SPIGOT", "Spigot").replaceAll("PAPER", "Paper").replaceAll("_", ".");
     }
 
     public void sendMessages(CommandSender commandSender, String... messages) {
