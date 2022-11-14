@@ -31,12 +31,10 @@ public class ServerCategoryButton extends GuiButton {
         setClickEvent(event -> {
             Player player = (Player) event.getWhoClicked();
 
-            if (category.getMods().equals(Mods.STATIC)) {
+            if (category.getMods().equals(Mods.STATIC))
                 new ServerStaticGui(plugin, category).onOpen(player);
-                return;
-            }
-
-            new ServerListGui(plugin, Utils.findPlayer(player), category).onOpen(player);
+            else
+                new ServerListGui(plugin, Utils.findPlayer(player), category).onOpen(player);
         });
     }
 

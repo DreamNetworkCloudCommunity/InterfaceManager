@@ -3,6 +3,7 @@ package fr.joupi.im.common;
 import be.alexandre01.dnplugin.api.request.channels.DNChannel;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.command.InterfaceCommand;
+import fr.joupi.im.listener.GlobalListener;
 import fr.joupi.im.utils.AbstractHandler;
 import fr.joupi.im.utils.command.CommandHandler;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Loader extends AbstractHandler<InterfaceManager> {
     @Override
     public void load() {
         getCommandHandler().registerCommand(new InterfaceCommand<>(getPlugin()));
+        registerListener(new GlobalListener(getPlugin()));
     }
 
     @Override

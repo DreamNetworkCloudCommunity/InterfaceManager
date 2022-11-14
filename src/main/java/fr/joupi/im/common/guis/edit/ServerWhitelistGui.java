@@ -52,8 +52,10 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
 
         setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),
                 event -> {
-                    if (isFromStatic()) new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
-                    else new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
+                    if (isFromStatic())
+                        new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
+                    else
+                        new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
                 }));
     }
 

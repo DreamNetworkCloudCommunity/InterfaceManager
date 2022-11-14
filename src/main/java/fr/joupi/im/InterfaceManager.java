@@ -1,7 +1,6 @@
 package fr.joupi.im;
 
 import fr.joupi.im.common.Loader;
-import fr.joupi.im.listener.GlobalListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InterfaceManager extends JavaPlugin {
@@ -11,7 +10,6 @@ public class InterfaceManager extends JavaPlugin {
     @Override
     public void onEnable() {
         this.loader = new Loader(this);
-        this.getServer().getPluginManager().registerEvents(new GlobalListener(this), this);
     }
 
     public Loader get() {

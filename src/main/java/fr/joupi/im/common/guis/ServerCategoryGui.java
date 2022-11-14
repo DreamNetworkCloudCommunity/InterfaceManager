@@ -1,10 +1,14 @@
 package fr.joupi.im.common.guis;
 
+import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.buttons.ServerCategoryButton;
+import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.gui.PageableGui;
+import fr.joupi.im.utils.gui.ValidateAction;
+import fr.joupi.im.utils.gui.ValidateGui;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
@@ -32,6 +36,10 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
+        setItem(4, new GuiButton(new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Catégories: &b" + DNSpigotAPI.getInstance().getServices().size(), "&7Serveurs: &b" + Utils.getOnlineServerCount(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount()).build()));
+
+        setItem(46, stopAllServerButton());
+
         setItem(48, previousPageButton());
 
         setItem(50, nextPageButton());
@@ -57,6 +65,16 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 
             updatePage(getPagination().getPrevious(getPage()));
         });
+    }
+
+    private GuiButton stopAllServerButton() {
+        return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cÉteindre tout les serveurs").build(),
+                event ->
+                    new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir", "&céteindre &7tout les serveurs en ligne ?").build(), this,
+                            () -> {
+                                DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(DNServer::stop));
+                                close((Player) event.getWhoClicked());
+                    }).onOpen((Player) event.getWhoClicked()));
     }
 
 }

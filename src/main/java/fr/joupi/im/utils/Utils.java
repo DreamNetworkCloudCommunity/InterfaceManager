@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,6 +28,18 @@ public class Utils {
     public int getOnlinePlayerCount(RemoteService category) {
         AtomicInteger finalCount = new AtomicInteger(0);
         DNSpigotAPI.getInstance().getServices().get(category.getName()).getServers().forEach((integer, dnServer) -> finalCount.addAndGet(dnServer.getPlayers().size()));
+        return finalCount.get();
+    }
+
+    public int getOnlinePlayerCount() {
+        AtomicInteger finalCount = new AtomicInteger(0);
+        DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(server -> finalCount.addAndGet(server.getPlayers().size())));
+        return finalCount.get();
+    }
+
+    public int getOnlineServerCount() {
+        AtomicInteger finalCount = new AtomicInteger(0);
+        DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
         return finalCount.get();
     }
 
