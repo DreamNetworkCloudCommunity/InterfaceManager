@@ -4,13 +4,10 @@ import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.api.request.channels.DNChannel;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
-import fr.joupi.im.common.maintenance.MaintenanceManager;
-import fr.joupi.im.common.message.MessageManager;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.command.InterfaceCommand;
+import fr.joupi.im.common.maintenance.MaintenanceManager;
+import fr.joupi.im.common.message.MessageManager;
 import fr.joupi.im.listener.GlobalListener;
 import fr.joupi.im.utils.AbstractHandler;
 import fr.joupi.im.utils.command.CommandHandler;
@@ -19,7 +16,6 @@ import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 @Getter

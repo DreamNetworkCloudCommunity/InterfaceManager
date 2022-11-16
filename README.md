@@ -21,6 +21,8 @@ Commande pour afficher le menu : **/im** | Permission : **im.command.menu**
 
 Commande pour afficher la liste des serveurs : **/im list** | Permission : **im.command.list**
 
+Permission universelle : **im.admin**
+
 ## Screens
 
 Quelques screens ......

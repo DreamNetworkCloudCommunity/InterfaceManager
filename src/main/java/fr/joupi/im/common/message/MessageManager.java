@@ -9,7 +9,6 @@ import be.alexandre01.dnplugin.netty.channel.ChannelHandlerContext;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
 import be.alexandre01.dnplugin.utils.messages.Message;
-import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import fr.joupi.im.InterfaceManager;
@@ -26,7 +25,6 @@ import org.bukkit.event.Listener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Getter
 public class MessageManager extends AbstractHandler<InterfaceManager> implements Listener {
@@ -53,8 +51,6 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     public void sendMaintenanceNewServerMessage(DNServer server) {
         if (!Utils.getServerName().equals(server.getFullName()))
             server.sendMessage(new Message().set(getOrderID(), Messages.NEW_SERVER.getName()).set("list", new ArrayList<>(getPlugin().get().getMaintenanceManager().getWhitelists().values())));
-
-        System.out.println(new Message().set(getOrderID(), Messages.NEW_SERVER.getName()).set("list", new ArrayList<>(getPlugin().get().getMaintenanceManager().getWhitelists().values())));
     }
 
     public void sendMaintenanceUpdateMessage(MaintenanceServer maintenanceServer) {
@@ -108,7 +104,6 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
                 if (message.contains(getOrderID())) {
 
                     if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName())) {
-                        System.out.println(message.get("list"));
                         List<MaintenanceServer> list = new Gson().fromJson(message.get("list").toString(), new TypeToken<List<MaintenanceServer>>() {}.getType());
 
                         list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));

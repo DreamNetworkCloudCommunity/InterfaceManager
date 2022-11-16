@@ -1,32 +1,27 @@
 package fr.joupi.im.command;
 
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
-import fr.joupi.im.common.guis.ServerCategoryGui;
-import fr.joupi.im.common.maintenance.MaintenanceServer;
 import fr.joupi.im.InterfaceManager;
+import fr.joupi.im.common.guis.ServerCategoryGui;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.command.annotation.Command;
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import lombok.Data;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.stream.Collectors;
 
 @Data
 public class InterfaceCommand<P extends InterfaceManager> {
 
     private final P plugin;
 
-    @Command(name = "im", aliases = {"interfacemanager"}, permission = "im.command.menu")
+    @Command(name = "im", aliases = {"interfacemanager"}, permission = "im.admin,im.command.menu")
     public void execute(Player player) {
         new ServerCategoryGui(plugin).onOpen(player);
         getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
     }
 
-    @SubCommand(name = "list", parent = "im", permission = "im.command.list")
+    @SubCommand(name = "list", parent = "im", permission = "im.admin,im.command.list")
     public void executeList(CommandSender commandSender) {
         commandSender.sendMessage(Utils.coloredText("&7» &eListe des serveurs : "));
 
@@ -39,7 +34,7 @@ public class InterfaceCommand<P extends InterfaceManager> {
                 });
     }
 
-    @Command(name = "test")
+    /*@Command(name = "test")
     public void executeTest(Player player) {
         getPlugin().get().getMaintenanceManager().getWhitelists().forEach((s, maintenanceServer) -> player.sendMessage(s + " / " + maintenanceServer.getServerName() + " / " + maintenanceServer.isWhitelisted() + " / " + String.join(", ", maintenanceServer.getWhitelists())));
     }
@@ -52,6 +47,6 @@ public class InterfaceCommand<P extends InterfaceManager> {
     @Command(name = "forceupdate")
     public void executeTest3(Player player) {
         getPlugin().get().getMessageManager().sendMaintenanceUpdateMessage(new MaintenanceServer(Utils.getServerName(), Bukkit.getWhitelistedPlayers().stream().map(OfflinePlayer::getName).collect(Collectors.toList()), Bukkit.getServer().hasWhitelist()));
-    }
+    }*/
 
 }

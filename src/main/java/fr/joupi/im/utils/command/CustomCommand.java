@@ -35,7 +35,7 @@ public class CustomCommand extends Command {
         if (command.aliases().length > 0)
             this.setAliases(Arrays.asList(command.aliases()));
 
-        this.setPermission(command.permission());
+        Arrays.stream(command.permission().split(",")).collect(Collectors.toList()).forEach(this::setPermission);
     }
 
     @SneakyThrows
@@ -82,9 +82,11 @@ public class CustomCommand extends Command {
             return true;
         }
 
-        if (!permission.isEmpty() && !commandSender.hasPermission(permission)) {
-            Utils.sendMessages(commandSender, "&cNo permission.");
-            return true;
+        for (String perm : permission.split(",")) {
+            if (!perm.isEmpty() && !commandSender.hasPermission(perm)) {
+                Utils.sendMessages(commandSender, "&cNo permission.");
+                return true;
+            }
         }
 
         if (parameters.length >= 1 && !parameters[0].getType().isArray()) {

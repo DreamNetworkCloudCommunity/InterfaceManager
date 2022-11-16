@@ -48,7 +48,7 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
                 event -> {
                     getPlugin().get().getPlayerInChatConfirmations().asMap().put(event.getWhoClicked().getUniqueId(), getServer());
                     close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVeuillez écrire dans le chat le nom du joueur a ajouter dans la maintenance du serveur &b" + getServer().getFullName() + " &a, pour annuler tapez &c!cancel");
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVeuillez écrire dans le chat le nom du joueur a ajouter dans la maintenance du serveur &b" + getServer().getFullName() + " &a pour annuler cette opération tapez &c!cancel");
                 }));
 
         setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),
