@@ -7,7 +7,6 @@ import fr.joupi.im.common.guis.buttons.ServerCategoryButton;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.gui.PageableGui;
-import fr.joupi.im.utils.gui.ValidateAction;
 import fr.joupi.im.utils.gui.ValidateGui;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;

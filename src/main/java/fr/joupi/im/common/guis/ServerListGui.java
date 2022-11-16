@@ -3,7 +3,6 @@ package fr.joupi.im.common.guis;
 import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.RequestType;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.utils.Mods;
 import fr.joupi.im.InterfaceManager;
@@ -19,9 +18,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+@Getter
 public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
-    @Getter
     private final RemoteService category;
 
     public ServerListGui(InterfaceManager plugin, DNPlayer player, RemoteService category) {
@@ -85,7 +84,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
         return getCategory().getMods().equals(Mods.STATIC) ? new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &cImpossible ").addLore(" ").addLore("&7Vous ne pouvez démarrer de nouveau", "&7serveur quand il est en mode &b" + StringUtils.capitalize(Mods.STATIC.name().toLowerCase())).build())
                 : new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &eDémarrer un nouveau serveur").build(),
                 event -> {
-                    DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getCategory().getName());
+                    getPlugin().get().getMessageManager().sendStartServerMessage(getCategory().getName());
                     close((Player) event.getWhoClicked());
                     Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer un nouveau serveur de type &b" + getCategory().getName());
         });

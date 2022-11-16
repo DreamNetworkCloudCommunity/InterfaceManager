@@ -1,21 +1,21 @@
 package fr.joupi.im.listener;
 
-import be.alexandre01.dnplugin.api.NetworkBaseAPI;
-import be.alexandre01.dnplugin.api.request.channels.*;
-import be.alexandre01.dnplugin.api.request.communication.ClientResponse;
-import be.alexandre01.dnplugin.gson.internal.LinkedTreeMap;
-import be.alexandre01.dnplugin.netty.channel.ChannelHandlerContext;
+import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.player.NetworkDisconnectEvent;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.player.NetworkSwitchServerEvent;
-import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
-import be.alexandre01.dnplugin.utils.messages.Message;
+import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerStartedEvent;
 import fr.joupi.im.InterfaceManager;
+import fr.joupi.im.utils.Utils;
+import fr.joupi.im.utils.threading.MultiThreading;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @AllArgsConstructor
@@ -25,8 +25,8 @@ public class GlobalListener implements Listener {
 
     @EventHandler
     public void onPlayerDisconnect(NetworkDisconnectEvent event) {
-        if (DNSpigotAPI.getInstance().getServices().get(event.getServer().getRemoteService().getName()).getServers().containsValue(event.getServer()))
-            DNSpigotAPI.getInstance().getServices().get(event.getServer().getRemoteService().getName()).getServers().get(event.getServer().getId()).getPlayers().remove(event.getPlayer());
+        if (Utils.getServerName().equals(event.getServer().getFullName()))
+            Utils.getServer().getPlayers().remove(event.getPlayer());
     }
 
     @EventHandler
@@ -35,27 +35,34 @@ public class GlobalListener implements Listener {
     }
 
     @EventHandler
-    public void onServerAttached(ServerAttachedEvent event) {
-        DNSpigotAPI.getInstance().autoRefreshPlayers();
+    public void onServerStart(ServerStartedEvent event) {
+        MultiThreading.schedule(() -> getPlugin().get().getMessageManager().sendMaintenanceNewServerMessage(event.getServer()), 2L, TimeUnit.SECONDS);
+    }
 
-        DNSpigotAPI.getInstance().getRequestManager().getBasicClientHandler().getResponses().add(new ClientResponse() {
-            @Override
-            protected void onResponse(Message message, ChannelHandlerContext ctx) {
-                if (message.contains("IMOrder")) {
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
 
-                    if (message.getString("IMOrder").equals("kickall"))
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("")));
+        if (getPlugin().get().getPlayerInChatConfirmations().asMap().containsKey(player.getUniqueId())) {
+            String[] message = event.getMessage().split(" ");
 
-                    if (message.getString("IMOrder").equals("kickPlayer"))
-                        if (Bukkit.getPlayer(message.getString("playerName")).isOnline())
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).kickPlayer(""));
-
-                    if (message.getString("IMOrder").equals("teleportPlayer"))
-                        if (Bukkit.getPlayer(message.getString("targetPlayerName")).isOnline())
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), () -> Bukkit.getPlayer(message.getString("playerName")).teleport(Bukkit.getPlayer(message.getString("targetPlayerName"))));
-                }
+            if (message[0].equalsIgnoreCase("!cancel")) {
+                Utils.sendMessages(player, "&cVous avez annuler cette opération");
+                getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
+                return;
             }
-        });
+
+            if (message[0].matches("[a-zA-Z0-9]*")) {
+
+                getPlugin().get().getMaintenanceManager().addPlayerInWhitelist(getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()), message[0]);
+                getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
+
+                Utils.sendMessages(player, "&aVous avez ajouté &e" + message[0]);
+            } else
+                Utils.sendMessages(player, "&cLe nom du joueur est incorrect");
+
+            getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
+            event.setCancelled(true);
+        }
     }
 
 }

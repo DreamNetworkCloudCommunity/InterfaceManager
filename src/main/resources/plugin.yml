@@ -1,6 +1,7 @@
 name: IM
 main: fr.joupi.im.InterfaceManager
-authors: [Joupi]
+author: Joupi
 version: 1.0.0
 description: Interface for manage server in your dreamnetwork
-depends: [DreamNetwork-Core]
+depend:
+  - DreamNetwork-Core

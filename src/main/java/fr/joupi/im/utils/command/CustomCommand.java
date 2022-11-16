@@ -1,10 +1,10 @@
 package fr.joupi.im.utils.command;
 
-import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.command.Data.CommandData;
 import fr.joupi.im.utils.command.Data.SubCommandData;
 import fr.joupi.im.utils.command.annotation.Optional;
 import fr.joupi.im.utils.command.convertor.IConvertor;
+import fr.joupi.im.utils.Utils;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.ArrayUtils;

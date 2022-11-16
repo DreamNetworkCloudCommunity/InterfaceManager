@@ -2,7 +2,6 @@ package fr.joupi.im.common.guis;
 
 import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.RequestType;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.edit.ServerStaticEditGui;
@@ -15,12 +14,10 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+@Getter
 public class ServerStaticGui extends Gui<InterfaceManager> {
 
-    @Getter
     private final RemoteService server;
-
-    @Getter
     private final DNServer dnServer;
 
     public ServerStaticGui(InterfaceManager plugin, RemoteService server) {
@@ -51,7 +48,7 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
                 })
                 : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aAllumer").addLore(" ", "&7Le serveur est &céteint", "&7Clic pour &aallumer &7le serveur").build(),
                 event -> {
-                    DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getServer().getName());
+                    getPlugin().get().getMessageManager().sendStartServerMessage(getServer().getName());
                     close((Player) event.getWhoClicked());
                     Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer le serveur &b" + getServer().getName());
                 }));

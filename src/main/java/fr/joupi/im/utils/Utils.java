@@ -4,11 +4,14 @@ import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +44,14 @@ public class Utils {
         AtomicInteger finalCount = new AtomicInteger(0);
         DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
         return finalCount.get();
+    }
+
+    public DNServer getServer() {
+        return DNSpigotAPI.getInstance().getServices().get(DNSpigotAPI.getInstance().getServerName()).getServers().values().stream().filter(server -> server.getFullName().equals(Utils.getServerName())).findFirst().orElse(null);
+    }
+
+    public String getServerName() {
+        return DNSpigotAPI.getInstance().getServerName() + "-" + DNSpigotAPI.getInstance().getID();
     }
 
     public String getServerVersion(DNServer dnServer) {

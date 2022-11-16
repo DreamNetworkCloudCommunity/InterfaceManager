@@ -2,9 +2,7 @@ package fr.joupi.im.common.guis.edit;
 
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.RequestType;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
-import be.alexandre01.dnplugin.utils.messages.Message;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.gui.Gui;
@@ -23,17 +21,12 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
     private final DNServer server;
     private final DNPlayer dnPlayer;
 
-    private boolean fromStatic;
+    private final boolean fromStatic;
 
-    public ServerPlayerEditGui(InterfaceManager plugin, DNServer server, DNPlayer dnPlayer) {
+    public ServerPlayerEditGui(InterfaceManager plugin, DNServer server, DNPlayer dnPlayer, boolean fromStatic) {
         super(plugin, "&7» &e" + dnPlayer.getName(), 6);
         this.server = server;
         this.dnPlayer = dnPlayer;
-        this.fromStatic = false;
-    }
-
-    public ServerPlayerEditGui(InterfaceManager plugin, DNServer server, DNPlayer dnPlayer, boolean fromStatic) {
-        this(plugin, server, dnPlayer);
         this.fromStatic = fromStatic;
     }
 
@@ -48,15 +41,12 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
         setItem(22, teleportToPlayerButton());
 
         setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à la liste de joueurs").build(),
-                event -> {
-                    if (isFromStatic()) new ServerPlayerListGui(getPlugin(), getServer(), isFromStatic()).onOpen((Player) event.getWhoClicked());
-                    else new ServerPlayerListGui(getPlugin(), getServer(), false).onOpen((Player) event.getWhoClicked());
-                }));
+                event -> new ServerPlayerListGui(getPlugin(), getServer(), isFromStatic()).onOpen((Player) event.getWhoClicked())));
     }
 
     private GuiButton kickPlayerButton() {
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick le joueur").build(), event -> {
-            DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_RETRANSMISSION, new Message().set("IMOrder", "kickPlayer").set("playerName", getDnPlayer().getName()), getServer().getFullName());
+            getPlugin().get().getMessageManager().sendKickPlayerMessage(getServer(), getDnPlayer());
             close((Player) event.getWhoClicked());
             Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick " + getDnPlayer().getName() + " du serveur &b" + getServer().getFullName());
         });
@@ -69,7 +59,7 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
                 event.getWhoClicked().teleport(Bukkit.getPlayer(getDnPlayer().getName()));
             } else {
                 DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnPlayer().getServer().getFullName());
-                DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_RETRANSMISSION, new Message().set("IMOrder", "teleportPlayer").set("playerName", event.getWhoClicked().getName()).set("targetPlayerName", getDnPlayer().getName()), getServer().getFullName());
+                getPlugin().get().getMessageManager().sendTeleportPlayerMessage(getServer(), (Player) event.getWhoClicked(), getDnPlayer());
             }
 
             Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getFullName());

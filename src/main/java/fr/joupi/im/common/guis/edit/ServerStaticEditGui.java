@@ -1,8 +1,8 @@
 package fr.joupi.im.common.guis.edit;
 
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.ServerStaticGui;
+import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.utils.gui.Gui;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.item.ItemBuilder;
@@ -11,9 +11,9 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+@Getter
 public class ServerStaticEditGui extends Gui<InterfaceManager> {
 
-    @Getter
     private final DNServer server;
 
     public ServerStaticEditGui(InterfaceManager plugin, DNServer server) {

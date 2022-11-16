@@ -4,8 +4,6 @@ import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -2,8 +2,8 @@ package fr.joupi.im.common.guis.edit.buttons;
 
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.edit.ServerPlayerEditGui;
+import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.utils.gui.GuiButton;
 import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;

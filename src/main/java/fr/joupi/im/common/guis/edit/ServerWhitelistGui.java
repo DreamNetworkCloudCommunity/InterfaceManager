@@ -11,44 +11,45 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+@Getter
 public class ServerWhitelistGui extends Gui<InterfaceManager> {
 
-    @Getter
     private final DNServer server;
-
-    @Getter
-    private boolean fromStatic;
-
-    public ServerWhitelistGui(InterfaceManager plugin, DNServer server) {
-        super(plugin, "&7» &eMaintenance", 5);
-        this.fromStatic = false;
-        this.server = server;
-    }
+    private final boolean fromStatic;
 
     public ServerWhitelistGui(InterfaceManager plugin, DNServer server, boolean fromStatic) {
-        this(plugin, server);
+        super(plugin, "&7» &eMaintenance", 5);
         this.fromStatic = fromStatic;
+        this.server = server;
     }
 
     @Override
     public void setup() {
+
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
-        setItem(20, new GuiButton(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setName("&7» &eJoueurs").addLore(" ", "&7Clic pour voir la liste", "&7joueurs dans la maintenance").build()));
+        setItem(20, new GuiButton(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setName("&7» &eJoueurs").addLore(" ", "&7Clic pour voir la liste", "&7joueurs dans la maintenance").build(),
+                event -> new ServerPlayerWhitelistedGui(getPlugin(), getServer(), isFromStatic()).onOpen((Player) event.getWhoClicked())));
 
-        setItem(22, getServer().getRemoteService().getPlayers().isEmpty() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cDésactiver").addLore(" ", "&7La maintenance est &aactivé", "&7Clic pour &cdésactiver &7la maintenance").build(),
+        setItem(22, getPlugin().get().getMaintenanceManager().getMaintenanceServer(getServer()).isWhitelisted() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cDésactiver").addLore(" ", "&7La maintenance est &aactivé", "&7Clic pour &cdésactiver &7la maintenance").build(),
                 event -> {
-                    close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez désactiver la maintenance du serveur &b" + getServer().getName());
+                    getPlugin().get().getMaintenanceManager().updateServerWhitelistStatus(getServer().getFullName(), false);
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez désactiver la maintenance du serveur &b" + getServer().getFullName());
+                    refresh();
                 })
                 : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aActiver").addLore(" ", "&7La maintenance est &cdésactiver", "&7Clic pour &aactiver &7la maintenance").build(),
                 event -> {
-                    //DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, getServer().getName());
-                    close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez activer la maintenance du serveur &b" + getServer().getName());
+                    getPlugin().get().getMaintenanceManager().updateServerWhitelistStatus(getServer().getFullName(), true);
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez activer la maintenance du serveur &b" + getServer().getFullName());
+                    refresh();
                 }));
 
-        setItem(24, new GuiButton(new ItemBuilder(Material.BOOK_AND_QUILL).setName("&7» &aAjouter un joueur").build()));
+        setItem(24, new GuiButton(new ItemBuilder(Material.BOOK_AND_QUILL).setName("&7» &aAjouter un joueur").build(),
+                event -> {
+                    getPlugin().get().getPlayerInChatConfirmations().asMap().put(event.getWhoClicked().getUniqueId(), getServer());
+                    close((Player) event.getWhoClicked());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVeuillez écrire dans le chat le nom du joueur a ajouter dans la maintenance du serveur &b" + getServer().getFullName() + " &a, pour annuler tapez &c!cancel");
+                }));
 
         setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),
                 event -> {
