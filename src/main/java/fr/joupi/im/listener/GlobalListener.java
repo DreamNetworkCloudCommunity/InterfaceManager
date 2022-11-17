@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -38,7 +39,7 @@ public class GlobalListener implements Listener {
         MultiThreading.schedule(() -> getPlugin().get().getMessageManager().sendMaintenanceNewServerMessage(event.getServer()), 2L, TimeUnit.SECONDS);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 

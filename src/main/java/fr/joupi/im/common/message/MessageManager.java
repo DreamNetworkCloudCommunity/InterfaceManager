@@ -78,7 +78,7 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendKickPlayerMessage(DNServer server, DNPlayer player) {
-        sendMessage(server, new Message().set(getOrderID(), Messages.KICK_PLAYER.getName()).set("playerName", player));
+        sendMessage(server, new Message().set(getOrderID(), Messages.KICK_PLAYER.getName()).set("playerName", player.getName()));
     }
 
     public void sendTeleportPlayerMessage(DNServer server, Player player, DNPlayer targetPlayer) {

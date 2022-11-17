@@ -22,8 +22,10 @@ public class InterfaceCommand<P extends InterfaceManager> {
     }
 
     @SubCommand(name = "list", parent = "im", permission = "im.admin,im.command.list")
-    public void executeList(CommandSender commandSender) {
+    public void executeList(Player commandSender) {
         commandSender.sendMessage(Utils.coloredText("&7» &eListe des serveurs : "));
+
+        commandSender.spigot().sendMessage();
 
         DNSpigotAPI.getInstance().getServices().values().forEach(
                 service -> {
