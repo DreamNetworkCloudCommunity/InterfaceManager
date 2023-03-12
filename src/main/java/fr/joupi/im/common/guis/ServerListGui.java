@@ -23,7 +23,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
     private final RemoteService category;
 
-    public ServerListGui(InterfaceManager plugin, DNPlayer player, RemoteService category) {
+    public ServerListGui(InterfaceManager plugin, RemoteService category) {
         super(plugin, "&7» &e" + StringUtils.capitalize(category.getName()), 6, 21);
         this.category = category;
 
@@ -31,7 +31,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
                 .get(category.getName())
                 .getServers()
                 .values()
-                .forEach(server -> getPagination().addElement(new ServerButton(plugin, player, server)));
+                .forEach(server -> getPagination().addElement(new ServerButton(plugin, server)));
     }
 
     @Override

@@ -31,7 +31,7 @@ public class GlobalListener implements Listener {
 
     @EventHandler
     public void onPlayerSwitchServer(NetworkSwitchServerEvent event) {
-        DNSpigotAPI.getInstance().getServices().get(event.getFrom().getRemoteService().getName()).getServers().get(event.getFrom().getId()).getPlayers().remove(event.getPlayer());
+        event.getFrom().getPlayers().remove(event.getPlayer());
     }
 
     @EventHandler

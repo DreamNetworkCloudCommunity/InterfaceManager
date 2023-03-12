@@ -39,6 +39,6 @@ public class ServerEditGui extends Gui<InterfaceManager> {
                 event -> new ServerPlayerListGui(getPlugin(), getServer(), false).onOpen((Player) event.getWhoClicked())));
 
         setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à la liste des serveurs").build(),
-                event -> new ServerListGui(getPlugin(), Utils.findPlayer((Player) event.getWhoClicked()), getServer().getRemoteService()).onOpen((Player) event.getWhoClicked())));
+                event -> new ServerListGui(getPlugin(), getServer().getRemoteService()).onOpen((Player) event.getWhoClicked())));
     }
 }

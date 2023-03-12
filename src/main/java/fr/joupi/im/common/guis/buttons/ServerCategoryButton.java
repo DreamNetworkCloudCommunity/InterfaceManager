@@ -24,7 +24,7 @@ public class ServerCategoryButton extends GuiButton {
             if (category.getMods().equals(Mods.STATIC))
                 new ServerStaticGui(plugin, category).onOpen(player);
             else
-                new ServerListGui(plugin, Utils.findPlayer(player), category).onOpen(player);
+                new ServerListGui(plugin, category).onOpen(player);
         });
     }
 
