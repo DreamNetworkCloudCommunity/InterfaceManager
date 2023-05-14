@@ -1,5 +1,5 @@
 # 							**InterfaceManager**
-*Interface de gestion des serveur via un menu en jeu*
+*Interface de gestion des serveurs via un menu en jeu*
 
 ## Instruction
 
