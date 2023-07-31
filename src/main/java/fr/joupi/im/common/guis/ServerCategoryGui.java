@@ -1,5 +1,6 @@
 package fr.joupi.im.common.guis;
 
+import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
@@ -19,8 +20,11 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
     public ServerCategoryGui(InterfaceManager plugin) {
         super(plugin, "&7» &eCatégories", 6, 10);
 
-        DNSpigotAPI.getInstance().getServices()
+        NetworkBaseAPI.getInstance()
+                .getServices()
                 .values()
+                .stream()
+                //.filter(remoteService -> remoteService.getRemoteBundle().)
                 .forEach(service -> getPagination().addElement(new ServerCategoryButton(plugin, service)));
     }
 
@@ -35,7 +39,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
-        setItem(4, new GuiButton(new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Catégories: &b" + DNSpigotAPI.getInstance().getServices().size(), "&7Serveurs: &b" + Utils.getOnlineServerCount(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount()).build()));
+        setItem(4, new GuiButton(new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Catégories: &b" + NetworkBaseAPI.getInstance().getServices().size(), "&7Serveurs: &b" + Utils.getOnlineServerCount(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount()).build()));
 
         setItem(46, stopAllServerButton());
 
@@ -71,7 +75,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                 event ->
                     new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir &céteindre", "&7tout les serveurs en ligne ?").build(), this,
                             () -> {
-                                DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(DNServer::stop));
+                                NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(DNServer::stop));
                                 close((Player) event.getWhoClicked());
                     }).onOpen((Player) event.getWhoClicked()));
     }

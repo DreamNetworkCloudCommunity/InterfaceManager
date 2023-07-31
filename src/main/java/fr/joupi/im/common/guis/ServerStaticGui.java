@@ -21,7 +21,7 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
     private final DNServer dnServer;
 
     public ServerStaticGui(InterfaceManager plugin, RemoteService server) {
-        super(plugin, "&7» &a" + server.getName(), 5);
+        super(plugin, "&7» &a" + server.getName().split("/")[1], 5);
         this.server = server;
         this.dnServer = server.getServers().get(0);
     }
@@ -31,8 +31,8 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
         setItem(4, !getServer().isStarted() ?
-                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(0).setName("&7» &a" + getServer().getName()).addLore("", "&7État: &cOff", "&7Version: &cN/A", "&7Joueurs: &b0", "", "&7(Serveur éteint)").build()) :
-                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(getDnServer().getPlayers().size()).setName("&a" + getServer().getName()).addLore("", "&7État: &aOn", "&7Version: &b" + Utils.getServerVersion(getDnServer()), "&7Joueurs: &b" + getDnServer().getPlayers().size(), "", "&eClic gauche pour se téléporter").build(),
+                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(0).setName("&7» &a" + getServer().getName().split("/")[1]).addLore("", "&7État: &cOff", "&7Version: &cN/A", "&7Joueurs: &b0", "", "&7(Serveur éteint)").build()) :
+                new GuiButton(new ItemBuilder(Material.PAPER).setAmount(getDnServer().getPlayers().size()).setName("&a" + getServer().getName().split("/")[1]).addLore("", "&7État: &aOn", "&7Version: &b" + Utils.getServerVersion(getDnServer()), "&7Joueurs: &b" + getDnServer().getPlayers().size(), "", "&eClic gauche pour se téléporter").build(),
                         event -> {
                             if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getFullName().equals(getDnServer().getFullName()))
                                 Utils.sendMessages((Player) event.getWhoClicked(), "&aVous êtes déjà sur le serveur &b" + getDnServer().getFullName());
@@ -44,7 +44,7 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
                 event -> {
                     getDnServer().stop();
                     close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint le serveur &b" + getServer().getName());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint le serveur &b" + getServer().getName().split("/")[1]);
                 })
                 : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aAllumer").addLore(" ", "&7Le serveur est &céteint", "&7Clic pour &aallumer &7le serveur").build(),
                 event -> {

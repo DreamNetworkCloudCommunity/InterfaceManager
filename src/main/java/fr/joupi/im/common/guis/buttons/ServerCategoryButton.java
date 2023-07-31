@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class ServerCategoryButton extends GuiButton {
 
     public ServerCategoryButton(InterfaceManager plugin, RemoteService category)  {
-        super(new ItemBuilder(Material.ENDER_PEARL).setName("&7» &b" + StringUtils.capitalize(category.getName()))
+        super(new ItemBuilder(Material.ENDER_PEARL).setName("&7» &b" + StringUtils.capitalize(category.getName().split("/")[1]))
                 .addLore("", "&7Serveurs: &b" + category.getServers().values().size(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount(category), "&7Mode: &b" + StringUtils.capitalize(category.getMods().name().toLowerCase())).build());
 
         setClickEvent(event -> {

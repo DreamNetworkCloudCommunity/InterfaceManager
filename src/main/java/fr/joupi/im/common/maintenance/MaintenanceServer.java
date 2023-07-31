@@ -24,4 +24,5 @@ public class MaintenanceServer {
         isWhitelisted = whitelisted;
         Bukkit.setWhitelist(whitelisted);
     }
+
 }

@@ -34,13 +34,13 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
         setItem(22, getPlugin().get().getMaintenanceManager().getMaintenanceServer(getServer()).isWhitelisted() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cDésactiver").addLore(" ", "&7La maintenance est &aactivé", "&7Clic pour &cdésactiver &7la maintenance").build(),
                 event -> {
                     getPlugin().get().getMaintenanceManager().updateServerWhitelistStatus(getServer().getFullName(), false);
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez désactiver la maintenance du serveur &b" + getServer().getFullName());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez désactiver la maintenance du serveur &b" + getServer().getFullName().split("/")[1]);
                     refresh();
                 })
                 : new GuiButton(new ItemBuilder(Material.COAL_BLOCK).setName("&7» &aActiver").addLore(" ", "&7La maintenance est &cdésactiver", "&7Clic pour &aactiver &7la maintenance").build(),
                 event -> {
                     getPlugin().get().getMaintenanceManager().updateServerWhitelistStatus(getServer().getFullName(), true);
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez activer la maintenance du serveur &b" + getServer().getFullName());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez activer la maintenance du serveur &b" + getServer().getFullName().split("/")[1]);
                     refresh();
                 }));
 
@@ -48,7 +48,7 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
                 event -> {
                     getPlugin().get().getPlayerInChatConfirmations().asMap().put(event.getWhoClicked().getUniqueId(), getServer());
                     close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVeuillez écrire dans le chat le nom du joueur a ajouter dans la maintenance du serveur &b" + getServer().getFullName() + " &a pour annuler cette opération tapez &c!cancel");
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVeuillez écrire dans le chat le nom du joueur a ajouter dans la maintenance du serveur &b" + getServer().getFullName().split("/")[1] + " &a pour annuler cette opération tapez &c!cancel");
                 }));
 
         setItem(44, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),

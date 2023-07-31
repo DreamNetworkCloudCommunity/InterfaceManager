@@ -1,5 +1,6 @@
 package fr.joupi.im.utils;
 
+import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
@@ -30,28 +31,28 @@ public class Utils {
 
     public int getOnlinePlayerCount(RemoteService category) {
         AtomicInteger finalCount = new AtomicInteger(0);
-        DNSpigotAPI.getInstance().getServices().get(category.getName()).getServers().forEach((integer, dnServer) -> finalCount.addAndGet(dnServer.getPlayers().size()));
+        NetworkBaseAPI.getInstance().getServices().get(category.getName()).getServers().forEach((integer, dnServer) -> finalCount.addAndGet(dnServer.getPlayers().size()));
         return finalCount.get();
     }
 
     public int getOnlinePlayerCount() {
         AtomicInteger finalCount = new AtomicInteger(0);
-        DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(server -> finalCount.addAndGet(server.getPlayers().size())));
+        NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(server -> finalCount.addAndGet(server.getPlayers().size())));
         return finalCount.get();
     }
 
     public int getOnlineServerCount() {
         AtomicInteger finalCount = new AtomicInteger(0);
-        DNSpigotAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
+        NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
         return finalCount.get();
     }
 
     public DNServer getServer() {
-        return DNSpigotAPI.getInstance().getServices().get(DNSpigotAPI.getInstance().getServerName()).getServers().values().stream().filter(server -> server.getFullName().equals(Utils.getServerName())).findFirst().orElse(null);
+        return DNSpigotAPI.getInstance().getCurrentServer();
     }
 
     public String getServerName() {
-        return DNSpigotAPI.getInstance().getServerName() + "-" + DNSpigotAPI.getInstance().getID();
+        return NetworkBaseAPI.getInstance().getServerName() + "-" + DNSpigotAPI.getInstance().getID();
     }
 
     public String getServerVersion(DNServer dnServer) {

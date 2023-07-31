@@ -1,21 +1,25 @@
 package fr.joupi.im.common.message;
 
+import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.api.request.RequestType;
 import be.alexandre01.dnplugin.api.request.channels.DNChannel;
 import be.alexandre01.dnplugin.api.request.communication.ClientResponse;
-import be.alexandre01.dnplugin.netty.channel.ChannelHandlerContext;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
 import be.alexandre01.dnplugin.utils.messages.Message;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.LinkedTreeMap;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.maintenance.MaintenanceServer;
 import fr.joupi.im.utils.AbstractHandler;
+import fr.joupi.im.utils.MaintenanceServerAdapter;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.threading.MultiThreading;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,6 +34,12 @@ import java.util.concurrent.TimeUnit;
 public class MessageManager extends AbstractHandler<InterfaceManager> implements Listener {
 
     private final DNChannel dnChannel;
+    private final Gson gson = new GsonBuilder()
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .registerTypeAdapter(MaintenanceServer.class, new MaintenanceServerAdapter())
+            .serializeNulls()
+            .create();
 
     public MessageManager(InterfaceManager plugin) {
         super(plugin);
@@ -41,7 +51,7 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendCommandToServer(String serverName, String command) {
-        DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.SPIGOT_EXECUTE_COMMAND, serverName, command);
+        DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, serverName, command);
     }
 
     public void sendStartServerMessage(String serverName) {
@@ -54,22 +64,22 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendMaintenanceUpdateMessage(MaintenanceServer maintenanceServer) {
-        DNSpigotAPI.getInstance().getServices().values().forEach(remoteService ->
+        NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
                 remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set("object", maintenanceServer))));
     }
 
     public void sendMaintenanceUpdateStatusMessage(MaintenanceServer maintenanceServer) {
-        DNSpigotAPI.getInstance().getServices().values().forEach(remoteService ->
+        NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
                 remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_STATUS.getName(), maintenanceServer.isWhitelisted()).set("object", maintenanceServer))));
     }
 
     public void sendMaintenanceAddListMessage(MaintenanceServer maintenanceServer, String playerName) {
-        DNSpigotAPI.getInstance().getServices().values().forEach(remoteService ->
+        NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
                 remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_ADD.getName(), playerName).set("object", maintenanceServer))));
     }
 
     public void sendMaintenanceRemoveListMessage(MaintenanceServer maintenanceServer, String playerName) {
-        DNSpigotAPI.getInstance().getServices().values().forEach(remoteService ->
+        NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
                 remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_REMOVE.getName(), playerName).set("object", maintenanceServer))));
     }
 
@@ -98,19 +108,19 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     public void onServerAttached(ServerAttachedEvent event) {
         DNSpigotAPI.getInstance().autoRefreshPlayers();
 
-        DNSpigotAPI.getInstance().getRequestManager().getBasicClientHandler().getResponses().add(new ClientResponse() {
+        DNSpigotAPI.getInstance().getRequestManager().getClientHandler().getResponses().add(new ClientResponse() {
             @Override
             protected void onResponse(Message message, ChannelHandlerContext ctx) {
                 if (message.contains(getOrderID())) {
 
                     if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName())) {
-                        List<MaintenanceServer> list = new Gson().fromJson(message.get("list").toString(), new TypeToken<List<MaintenanceServer>>() {}.getType());
-
-                        list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
+                        ArrayList<LinkedTreeMap<String, Object>> treeMapArrayList = (ArrayList<LinkedTreeMap<String, Object>>) message.get("list");
+                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(treeMapArrayList), new TypeToken<List<MaintenanceServer>>() {}.getType());list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
                     }
 
                     if (message.getString(getOrderID()).equals(Messages.UPDATE_MAINTENANCE_DATA.getName())) {
-                        MaintenanceServer maintenanceServer = new Gson().fromJson(message.get("object").toString(), MaintenanceServer.class);
+                        LinkedTreeMap<String, Object> objectLinkedTreeMap = (LinkedTreeMap<String, Object>) message.get("object");
+                        MaintenanceServer maintenanceServer = getGson().fromJson(getGson().toJson(objectLinkedTreeMap), MaintenanceServer.class);
 
                         if (message.contains(Messages.UPDATE_MAINTENANCE_STATUS.getName()))
                             executeCommand(maintenanceServer.getServerName(), "whitelist " + (maintenanceServer.isWhitelisted() ? "on" : "off"));
@@ -132,11 +142,8 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
                     if (message.getString(getOrderID()).equals(Messages.TELEPORT_PLAYER.getName()))
                         if (Bukkit.getPlayer(message.getString("targetPlayerName")).isOnline())
                             MultiThreading.schedule(() -> Bukkit.getPlayer(message.getString("playerName")).teleport(Bukkit.getPlayer(message.getString("targetPlayerName"))), 1L, TimeUnit.SECONDS);
-
                 }
             }
         });
-
     }
-
 }

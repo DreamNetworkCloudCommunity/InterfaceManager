@@ -3,15 +3,22 @@ plugins {
 }
 
 group 'fr.joupi'
-version '1.0-SNAPSHOT'
+version '1.2-SNAPSHOT'
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://repo.dreamnetwork.cloud/repository/maven-releases/")
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'be.alexandre01.dreamnetwork:DreamNetwork-Plugin:1.6.0'
+    compileOnly 'be.alexandre01.dreamnetwork:DreamNetwork-Core:1.11'
+
 }
+

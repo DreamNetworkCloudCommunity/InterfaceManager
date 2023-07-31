@@ -1,6 +1,6 @@
 package fr.joupi.im.command;
 
-import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
+import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.ServerCategoryGui;
 import fr.joupi.im.utils.Utils;
@@ -24,12 +24,12 @@ public class InterfaceCommand<P extends InterfaceManager> {
     public void executeList(Player commandSender) {
         commandSender.sendMessage(Utils.coloredText("&7» &eListe des serveurs : "));
 
-        DNSpigotAPI.getInstance().getServices().values().forEach(
+        NetworkBaseAPI.getInstance().getServices().values().forEach(
                 service -> {
                     commandSender.sendMessage(Utils.coloredText(" "));
-                    commandSender.sendMessage(Utils.coloredText(" &7• &6" + service.getName()));
+                    commandSender.sendMessage(Utils.coloredText(" &7• &6" + service.getName().split("/")[1]));
                     service.getServers().values().forEach(
-                            server -> commandSender.sendMessage(Utils.coloredText(" &7 &7- &a" + server.getFullName() + " &7| &b" + Utils.getServerVersion(server) + " &7(" + server.getPlayers().size() + ")")));
+                            server -> commandSender.sendMessage(Utils.coloredText(" &7 &7- &a" + server.getFullName().split("/")[1] + " &7| &b" + Utils.getServerVersion(server) + " &7(" + server.getPlayers().size() + ")")));
                 });
     }
 

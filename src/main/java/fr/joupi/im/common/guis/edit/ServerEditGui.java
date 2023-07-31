@@ -18,7 +18,7 @@ public class ServerEditGui extends Gui<InterfaceManager> {
     private final DNServer server;
 
     public ServerEditGui(InterfaceManager plugin, DNServer server) {
-        super(plugin, "&7» &a" + server.getFullName(), 5);
+        super(plugin, "&7» &a" + server.getFullName().split("/")[1], 5);
         this.server = server;
     }
 

@@ -24,17 +24,6 @@ public class GlobalListener implements Listener {
     private final InterfaceManager plugin;
 
     @EventHandler
-    public void onPlayerDisconnect(NetworkDisconnectEvent event) {
-        if (Utils.getServerName().equals(event.getServer().getFullName()))
-            Utils.getServer().getPlayers().remove(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerSwitchServer(NetworkSwitchServerEvent event) {
-        event.getFrom().getPlayers().remove(event.getPlayer());
-    }
-
-    @EventHandler
     public void onServerStart(ServerStartedEvent event) {
         MultiThreading.schedule(() -> getPlugin().get().getMessageManager().sendMaintenanceNewServerMessage(event.getServer()), 2L, TimeUnit.SECONDS);
     }
@@ -50,9 +39,9 @@ public class GlobalListener implements Listener {
                 if (message[0].matches("[a-zA-Z0-9]*"))
                     if (getPlugin().get().getMaintenanceManager().getMaintenanceServer(getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId())).getWhitelists().stream().noneMatch(s -> s.equals(message[0]))) {
                         getPlugin().get().getMaintenanceManager().addPlayerInWhitelist(getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()), message[0]);
-                        Utils.sendMessages(player, "&aVous avez ajouté &e" + message[0] + " &aa la maintenance du serveur &b" + getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()).getFullName());
+                        Utils.sendMessages(player, "&aVous avez ajouté &e" + message[0] + " &aa la maintenance du serveur &b" + getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()).getFullName().split("/")[1]);
                     } else
-                        Utils.sendMessages(player, "&cLe joueur &e" + message[0] + " &cest déjà dans la maintenance du serveur &b" + getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()).getFullName());
+                        Utils.sendMessages(player, "&cLe joueur &e" + message[0] + " &cest déjà dans la maintenance du serveur &b" + getPlugin().get().getPlayerInChatConfirmations().asMap().get(player.getUniqueId()).getFullName().split("/")[1]);
                 else
                     Utils.sendMessages(player, "&cLe nom du joueur est incorrect");
             else

@@ -48,7 +48,7 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick le joueur").build(), event -> {
             getPlugin().get().getMessageManager().sendKickPlayerMessage(getServer(), getDnPlayer());
             close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick &e" + getDnPlayer().getName() + " du serveur &b" + getServer().getFullName());
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick &e" + getDnPlayer().getName() + " du serveur &b" + getServer().getFullName().split("/")[1]);
         });
     }
 
@@ -62,7 +62,7 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
                 getPlugin().get().getMessageManager().sendTeleportPlayerMessage(getServer(), (Player) event.getWhoClicked(), getDnPlayer());
             }
 
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getFullName());
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getFullName().split("/")[1]);
         });
     }
 

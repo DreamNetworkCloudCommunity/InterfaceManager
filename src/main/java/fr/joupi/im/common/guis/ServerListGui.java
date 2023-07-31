@@ -1,5 +1,6 @@
 package fr.joupi.im.common.guis;
 
+import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
@@ -24,10 +25,10 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     private final RemoteService category;
 
     public ServerListGui(InterfaceManager plugin, RemoteService category) {
-        super(plugin, "&7» &e" + StringUtils.capitalize(category.getName()), 6, 21);
+        super(plugin, "&7» &e" + StringUtils.capitalize(category.getName().split("/")[1]), 6, 21);
         this.category = category;
 
-        DNSpigotAPI.getInstance().getServices()
+        NetworkBaseAPI.getInstance().getServices()
                 .get(category.getName())
                 .getServers()
                 .values()
@@ -86,7 +87,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
                 event -> {
                     getPlugin().get().getMessageManager().sendStartServerMessage(getCategory().getName());
                     close((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer un nouveau serveur de type &b" + getCategory().getName());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez démarrer un nouveau serveur de type &b" + StringUtils.capitalize(getCategory().getName().split("/")[1]));
         });
     }
 
