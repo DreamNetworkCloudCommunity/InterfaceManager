@@ -8,7 +8,7 @@
 
 ![](img/1.png)
 
-Placez le fichier "[DN] InterfaceManager-1.0-SNAPSHOT.jar" dans le dossier "addons"
+Placez le fichier "[DN] InterfaceManager-1.3-SNAPSHOT.jar" dans le dossier "addons"
 
 #### ![](img/2.png)
 
