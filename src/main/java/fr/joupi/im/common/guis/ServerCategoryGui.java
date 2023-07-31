@@ -1,6 +1,8 @@
 package fr.joupi.im.common.guis;
 
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
+import be.alexandre01.dnplugin.api.objects.RemoteBundle;
+import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
@@ -15,6 +17,8 @@ import fr.joupi.im.utils.item.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.function.Predicate;
+
 public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCategoryButton> {
 
     public ServerCategoryGui(InterfaceManager plugin) {
@@ -24,7 +28,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                 .getServices()
                 .values()
                 .stream()
-                //.filter(remoteService -> remoteService.getRemoteBundle().)
+                .filter(remoteService -> !remoteService.getRemoteBundle().isProxy())
                 .forEach(service -> getPagination().addElement(new ServerCategoryButton(plugin, service)));
     }
 
@@ -75,7 +79,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                 event ->
                     new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir &céteindre", "&7tout les serveurs en ligne ?").build(), this,
                             () -> {
-                                NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(DNServer::stop));
+                                NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().stream().filter(service -> !service.getRemoteService().getRemoteBundle().isProxy()).forEach(DNServer::stop));
                                 close((Player) event.getWhoClicked());
                     }).onOpen((Player) event.getWhoClicked()));
     }

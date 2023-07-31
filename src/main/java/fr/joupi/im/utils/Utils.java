@@ -30,15 +30,11 @@ public class Utils {
     }
 
     public int getOnlinePlayerCount(RemoteService category) {
-        AtomicInteger finalCount = new AtomicInteger(0);
-        NetworkBaseAPI.getInstance().getServices().get(category.getName()).getServers().forEach((integer, dnServer) -> finalCount.addAndGet(dnServer.getPlayers().size()));
-        return finalCount.get();
+        return category.getPlayers().size();
     }
 
     public int getOnlinePlayerCount() {
-        AtomicInteger finalCount = new AtomicInteger(0);
-        NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().forEach(server -> finalCount.addAndGet(server.getPlayers().size())));
-        return finalCount.get();
+        return DNSpigotAPI.getInstance().getDnPlayerManager().getDnPlayers().size();
     }
 
     public int getOnlineServerCount() {

@@ -115,7 +115,8 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
 
                     if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName())) {
                         ArrayList<LinkedTreeMap<String, Object>> treeMapArrayList = (ArrayList<LinkedTreeMap<String, Object>>) message.get("list");
-                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(treeMapArrayList), new TypeToken<List<MaintenanceServer>>() {}.getType());list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
+                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(treeMapArrayList), new TypeToken<List<MaintenanceServer>>() {}.getType());
+                        list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
                     }
 
                     if (message.getString(getOrderID()).equals(Messages.UPDATE_MAINTENANCE_DATA.getName())) {

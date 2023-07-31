@@ -76,7 +76,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
                 : new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cÉteindre tout les serveurs").build(),
                 event -> {
                     getCategory().getServers().values().forEach(DNServer::stop);
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint tout les serveurs de la catégorie &b" + getCategory().getName());
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez éteint tout les serveurs de la catégorie &b" + StringUtils.capitalize(getCategory().getName().split("/")[1]));
                     close((Player) event.getWhoClicked());
         });
     }

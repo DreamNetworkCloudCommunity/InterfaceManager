@@ -17,8 +17,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    compileOnly 'be.alexandre01.dreamnetwork:DreamNetwork-Plugin:1.6.0'
+    compileOnly 'be.alexandre01.dnplugin:DreamNetwork-Plugin:1.6.0'
     compileOnly 'be.alexandre01.dreamnetwork:DreamNetwork-Core:1.11'
-
 }
 
