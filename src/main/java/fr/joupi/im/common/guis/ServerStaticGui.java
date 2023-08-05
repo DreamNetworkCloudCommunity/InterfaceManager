@@ -24,7 +24,6 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
         super(plugin, "&7» &a" + service.getName().split("/")[1], 5);
         this.service = service;
         this.dnServer = service.getServers().get(1);
-        System.out.println(dnServer.getFullName());
     }
 
     @Override
