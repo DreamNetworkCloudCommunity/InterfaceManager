@@ -10,6 +10,7 @@ import fr.joupi.im.utils.item.ItemBuilder;
 import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import lombok.Getter;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -42,8 +43,10 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
 
         setItem(53, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à l'édition").build(),
                 event -> {
-                    if (isFromStatic()) new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
-                    else new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
+                    if (isFromStatic())
+                        new ServerStaticEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
+                    else
+                        new ServerEditGui(getPlugin(), getServer()).onOpen((Player) event.getWhoClicked());
                 }));
     }
 
@@ -69,7 +72,7 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick tout les joueurs").build(), event -> {
             getPlugin().get().getMessageManager().sendKickAllPlayerMessage(getServer());
             close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick tout les joueurs du serveur &b" + getServer().getFullName());
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick tout les joueurs du serveur &b" + getServer().getFullName().split("/")[1]);
         });
     }
 

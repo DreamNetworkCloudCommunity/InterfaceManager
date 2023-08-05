@@ -32,17 +32,17 @@ public class Pagination<T> {
     }
 
     public void removeElement(T element) {
-
-        if (!this.elements.contains(element)) return;
+        if (!this.elements.contains(element))
+            return;
 
         this.elements.remove(element);
         int pages = this.countPages();
 
-        if (pages > 1 && this.getRequiredPages() < pages) this.pages.remove(this.getLast());
+        if (pages > 1 && this.getRequiredPages() < pages)
+            this.pages.remove(this.getLast());
     }
 
     public void removeElement(int index) {
-
         if (index < 0)
             throw new IllegalArgumentException("Index cannot be negative.");
 
@@ -53,7 +53,8 @@ public class Pagination<T> {
 
         int pages = this.countPages();
 
-        if (pages > 1 && this.getRequiredPages() < pages) this.pages.remove(this.getLast());
+        if (pages > 1 && this.getRequiredPages() < pages)
+            this.pages.remove(this.getLast());
     }
 
     public boolean containsElement(T element) {
@@ -85,7 +86,6 @@ public class Pagination<T> {
     }
 
     public boolean hasNext(Page page) {
-
         if (!this.contains(page))
             throw new IllegalArgumentException("Page does not belong to the pagination.");
 
@@ -93,7 +93,6 @@ public class Pagination<T> {
     }
 
     public boolean hasPrevious(Page page) {
-
         if (!this.contains(page))
             throw new IllegalArgumentException("Page does not belong to the pagination.");
 
@@ -101,7 +100,6 @@ public class Pagination<T> {
     }
 
     public Page getNext(Page page) {
-
         if (!this.contains(page))
             throw new IllegalArgumentException("Page does not belong to the pagination.");
 
@@ -109,7 +107,6 @@ public class Pagination<T> {
     }
 
     public Page getPrevious(Page page) {
-
         if (!this.contains(page))
             throw new IllegalArgumentException("Page does not belong to the pagination.");
 
@@ -117,7 +114,6 @@ public class Pagination<T> {
     }
 
     public Page getPage(int number) {
-
         if (number < 1 || number > this.pages.size())
             throw new IllegalArgumentException(String.format("Page number must be between 1 and %d (include).", this.pages.size()));
 
@@ -154,7 +150,6 @@ public class Pagination<T> {
     }
 
     private void generatePages() {
-
         List<T> elements = new ArrayList<>(this.elements);
 
         this.pages.clear();
@@ -162,7 +157,8 @@ public class Pagination<T> {
 
         elements.forEach(this::addElement);
 
-        if (this.pages.size() == 0) this.pages.add(new Page(1, 0, this.elementsPerPage));
+        if (this.pages.size() == 0)
+            this.pages.add(new Page(1, 0, this.elementsPerPage));
     }
 
     public List<T> getElements() {

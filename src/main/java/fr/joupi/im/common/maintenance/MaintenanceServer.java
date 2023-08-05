@@ -20,9 +20,4 @@ public class MaintenanceServer {
         this.isWhitelisted = isWhitelisted;
     }
 
-    public void setWhitelisted(boolean whitelisted) {
-        isWhitelisted = whitelisted;
-        Bukkit.setWhitelist(whitelisted);
-    }
-
 }

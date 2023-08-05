@@ -1,4 +1,4 @@
-package fr.joupi.im.utils.command.Data;
+package fr.joupi.im.utils.command.data;
 
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import lombok.Data;

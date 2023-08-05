@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class Utils {
@@ -39,8 +40,16 @@ public class Utils {
 
     public int getOnlineServerCount() {
         AtomicInteger finalCount = new AtomicInteger(0);
-        NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> finalCount.addAndGet(remoteService.getServers().size()));
+        NetworkBaseAPI.getInstance().getServices().values().stream().filter(remoteService -> !remoteService.getRemoteBundle().isProxy()).forEach(remoteService -> finalCount.addAndGet(remoteService.getServers().size()));
         return finalCount.get();
+    }
+
+    public int getOnlineServiceCount() {
+        return (int) NetworkBaseAPI.getInstance().getServices().values().stream().filter(remoteService -> !remoteService.getRemoteBundle().isProxy()).count();
+    }
+
+    public List<RemoteService> getServices() {
+        return NetworkBaseAPI.getInstance().getServices().values().stream().filter(remoteService -> !remoteService.getRemoteBundle().isProxy()).collect(Collectors.toList());
     }
 
     public DNServer getServer() {

@@ -43,7 +43,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
-        setItem(4, new GuiButton(new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Catégories: &b" + NetworkBaseAPI.getInstance().getServices().size(), "&7Serveurs: &b" + Utils.getOnlineServerCount(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount()).build()));
+        setItem(4, new GuiButton(new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Catégories: &b" + Utils.getOnlineServiceCount(), "&7Serveurs: &b" + Utils.getOnlineServerCount(), "&7Joueurs: &b" + Utils.getOnlinePlayerCount()).build()));
 
         setItem(46, stopAllServerButton());
 
@@ -79,7 +79,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                 event ->
                     new ValidateGui<>(getPlugin(), "&7» &cÉteindre tout les serveurs", XMaterial.CYAN_STAINED_GLASS_PANE.parseItem(), new ItemBuilder(Material.PAPER).setName("&7» &bInformations").addLore("", "&7Êtes vous sûrs de vouloir &céteindre", "&7tout les serveurs en ligne ?").build(), this,
                             () -> {
-                                NetworkBaseAPI.getInstance().getServices().forEach((s, remoteService) -> remoteService.getServers().values().stream().filter(service -> !service.getRemoteService().getRemoteBundle().isProxy()).forEach(DNServer::stop));
+                                Utils.getServices().forEach(remoteService -> remoteService.getServers().values().forEach(DNServer::stop));
                                 close((Player) event.getWhoClicked());
                     }).onOpen((Player) event.getWhoClicked()));
     }

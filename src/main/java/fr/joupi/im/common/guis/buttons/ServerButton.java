@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 public class ServerButton extends GuiButton {
 
     public ServerButton(InterfaceManager plugin, DNServer server)  {
-        setItemStack(getServerItem(server));
+        setItemStack(new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getFullName().split("/")[1])
+                .addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + Utils.getServerVersion(server), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier").build());
 
         setClickEvent(event -> {
             Player player = (Player) event.getWhoClicked();
@@ -33,10 +34,6 @@ public class ServerButton extends GuiButton {
             else
                 Utils.sendMessages(player, "&aVous êtes déjà connecté au serveur &b" + StringUtils.capitalize(server.getFullName().split("/")[1]));
         });
-    }
-
-    public ItemStack getServerItem(DNServer server) {
-        return new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getFullName().split("/")[1]).addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + Utils.getServerVersion(server), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier").build();
     }
 
 }

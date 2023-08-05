@@ -1,8 +1,5 @@
 package fr.joupi.im.listener;
 
-import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
-import be.alexandre01.dnplugin.plugins.spigot.api.events.player.NetworkDisconnectEvent;
-import be.alexandre01.dnplugin.plugins.spigot.api.events.player.NetworkSwitchServerEvent;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerStartedEvent;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.utils.Utils;

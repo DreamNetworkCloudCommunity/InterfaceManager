@@ -1,4 +1,4 @@
-package fr.joupi.im.utils.command.Data;
+package fr.joupi.im.utils.command.data;
 
 import com.google.common.collect.Lists;
 import fr.joupi.im.utils.command.annotation.Command;

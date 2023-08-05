@@ -1,8 +1,8 @@
 package fr.joupi.im.utils.command;
 
 import com.google.common.collect.Lists;
-import fr.joupi.im.utils.command.Data.CommandData;
-import fr.joupi.im.utils.command.Data.SubCommandData;
+import fr.joupi.im.utils.command.data.CommandData;
+import fr.joupi.im.utils.command.data.SubCommandData;
 import fr.joupi.im.utils.command.annotation.Command;
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import fr.joupi.im.utils.command.convertor.IConvertor;

@@ -23,8 +23,9 @@ public class ServerPlayerWhitelistedGui extends PageableGui<InterfaceManager, Pl
         this.server = server;
         this.fromStatic = fromStatic;
 
-        getPlugin().get().getMaintenanceManager().getMaintenanceServer(server)
-                        .getWhitelists().forEach(s -> getPagination().addElement(new PlayerWhitelistButton(plugin, server, s, fromStatic)));
+        getPlugin().get().getMaintenanceManager()
+                .getMaintenanceServer(server)
+                .getWhitelists().forEach(s -> getPagination().addElement(new PlayerWhitelistButton(plugin, server, s, fromStatic)));
     }
 
     @Override

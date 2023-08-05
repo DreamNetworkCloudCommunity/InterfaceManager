@@ -22,6 +22,7 @@ import fr.joupi.im.utils.threading.MultiThreading;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -142,7 +143,8 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
 
                     if (message.getString(getOrderID()).equals(Messages.TELEPORT_PLAYER.getName()))
                         if (Bukkit.getPlayer(message.getString("targetPlayerName")).isOnline())
-                            MultiThreading.schedule(() -> Bukkit.getPlayer(message.getString("playerName")).teleport(Bukkit.getPlayer(message.getString("targetPlayerName"))), 1L, TimeUnit.SECONDS);
+                            MultiThreading.schedule(() -> Bukkit.getPlayer(message.getString("playerName")).teleport(new Location(Bukkit.getWorld("world"),-170, 68,57)), 1L, TimeUnit.SECONDS);
+                            //MultiThreading.schedule(() -> Bukkit.getPlayer(message.getString("playerName")).teleport(Bukkit.getPlayer(message.getString("targetPlayerName"))), 1L, TimeUnit.SECONDS);
                 }
             }
         });

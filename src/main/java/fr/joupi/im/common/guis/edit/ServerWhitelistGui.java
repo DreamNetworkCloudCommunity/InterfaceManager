@@ -28,7 +28,7 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
 
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
-        setItem(20, new GuiButton(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setName("&7» &eJoueurs").addLore(" ", "&7Clic pour voir la liste", "&7joueurs dans la maintenance").build(),
+        setItem(20, new GuiButton(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setName("&7» &eJoueurs").addLore(" ", "&7Clic pour voir la liste des", "&7joueurs dans la maintenance").build(),
                 event -> new ServerPlayerWhitelistedGui(getPlugin(), getServer(), isFromStatic()).onOpen((Player) event.getWhoClicked())));
 
         setItem(22, getPlugin().get().getMaintenanceManager().getMaintenanceServer(getServer()).isWhitelisted() ? new GuiButton(new ItemBuilder(Material.GOLD_BLOCK).setName("&7» &cDésactiver").addLore(" ", "&7La maintenance est &aactivé", "&7Clic pour &cdésactiver &7la maintenance").build(),

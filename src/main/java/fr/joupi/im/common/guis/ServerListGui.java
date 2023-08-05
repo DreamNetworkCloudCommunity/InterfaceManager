@@ -28,7 +28,8 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
         super(plugin, "&7» &e" + StringUtils.capitalize(category.getName().split("/")[1]), 6, 21);
         this.category = category;
 
-        NetworkBaseAPI.getInstance().getServices()
+        NetworkBaseAPI.getInstance()
+                .getServices()
                 .get(category.getName())
                 .getServers()
                 .values()
@@ -82,8 +83,7 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     }
 
     private GuiButton addNewServerButton() {
-        return getCategory().getMods().equals(Mods.STATIC) ? new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &cImpossible ").addLore(" ").addLore("&7Vous ne pouvez démarrer de nouveau", "&7serveur quand il est en mode &b" + StringUtils.capitalize(Mods.STATIC.name().toLowerCase())).build())
-                : new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &eDémarrer un nouveau serveur").build(),
+        return new GuiButton(new ItemBuilder(SkullBuilder.getPlusSkull()).setName("&7» &eDémarrer un nouveau serveur").build(),
                 event -> {
                     getPlugin().get().getMessageManager().sendStartServerMessage(getCategory().getName());
                     close((Player) event.getWhoClicked());
