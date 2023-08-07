@@ -20,11 +20,6 @@ public class InterfaceCommand<P extends InterfaceManager> {
         getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
     }
 
-    @Command(name = "dev")
-    public void dev(CommandSender sender) {
-
-    }
-
     @SubCommand(name = "list", parent = "im", permission = "im.admin,im.command.list")
     public void executeList(Player commandSender) {
         commandSender.sendMessage(Utils.coloredText("&7» &eListe des serveurs : "));
