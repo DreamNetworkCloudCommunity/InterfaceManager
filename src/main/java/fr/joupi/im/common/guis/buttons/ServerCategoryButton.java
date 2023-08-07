@@ -1,7 +1,7 @@
 package fr.joupi.im.common.guis.buttons;
 
 import be.alexandre01.dnplugin.api.objects.RemoteService;
-import be.alexandre01.dnplugin.utils.Mods;
+import be.alexandre01.dnplugin.api.utils.Mods;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.ServerListGui;
 import fr.joupi.im.common.guis.ServerStaticGui;

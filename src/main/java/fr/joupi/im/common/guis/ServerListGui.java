@@ -2,10 +2,7 @@ package fr.joupi.im.common.guis;
 
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.objects.RemoteService;
-import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
-import be.alexandre01.dnplugin.utils.Mods;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.buttons.ServerButton;
 import fr.joupi.im.utils.Utils;

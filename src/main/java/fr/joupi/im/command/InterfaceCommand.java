@@ -6,6 +6,7 @@ import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.command.annotation.Command;
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import lombok.Data;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @Data
@@ -17,6 +18,11 @@ public class InterfaceCommand<P extends InterfaceManager> {
     public void execute(Player player) {
         new ServerCategoryGui(plugin).onOpen(player);
         getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
+    }
+
+    @Command(name = "dev")
+    public void dev(CommandSender sender) {
+
     }
 
     @SubCommand(name = "list", parent = "im", permission = "im.admin,im.command.list")
