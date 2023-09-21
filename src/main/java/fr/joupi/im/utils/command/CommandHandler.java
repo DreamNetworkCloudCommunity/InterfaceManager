@@ -7,11 +7,14 @@ import fr.joupi.im.utils.command.annotation.Command;
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import fr.joupi.im.utils.command.convertor.IConvertor;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,19 +26,20 @@ public class CommandHandler {
 
     private final String fallbackPrefix;
 
-    private final List<IConvertor<?>> convertors = Lists.newArrayList();
-
-    private final List<CustomCommand> customCommands = Lists.newArrayList();
+    private final List<IConvertor<?>> convertors;
+    private final List<CustomCommand> customCommands;
 
     public CommandHandler(JavaPlugin plugin, String fallbackPrefix) {
         this.fallbackPrefix = fallbackPrefix;
+        this.convertors = Lists.newLinkedList();
+        this.customCommands = Lists.newLinkedList();
 
         try {
             Field field = plugin.getServer().getClass().getDeclaredField("commandMap");
             field.setAccessible(true);
             this.commandMap = (CommandMap) field.get(plugin.getServer());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -73,19 +77,19 @@ public class CommandHandler {
             CustomCommand customCommand = new CustomCommand(commandData, this);
 
             customCommands.add(customCommand);
-            this.commandMap.register(fallbackPrefix, customCommand);
+            this.commandMap.register(command.name(), customCommand);
         }
 
         for (Method method : subCommandMethods) {
             SubCommand subCommand = method.getAnnotation(SubCommand.class);
 
-            CustomCommand parentCommand = this.customCommands
-                    .stream().filter(customCommand ->
-                            customCommand.getCommandData().getCommand().name()
-                                    .equalsIgnoreCase(subCommand.parent()) || Arrays.stream(customCommand.getCommandData().getCommand().aliases())
-                                    .filter(alias -> subCommand.parent().equalsIgnoreCase(alias))
-                                    .findFirst()
-                                    .orElse(null) != null).findFirst().orElse(null);
+            CustomCommand parentCommand = this.customCommands.stream()
+                    .filter(customCommand -> customCommand.getCommandData().getCommand().name().equalsIgnoreCase(subCommand.parent()) || Arrays.stream(customCommand.getCommandData().getCommand().aliases())
+                            .filter(alias -> subCommand.parent().equalsIgnoreCase(alias))
+                            .findFirst()
+                            .orElse(null) != null)
+                    .findFirst()
+                    .orElse(null);
 
             if (parentCommand == null) {
                 System.out.println("Failed to find parent command " + subCommand.parent() + " for command " + subCommand.name());

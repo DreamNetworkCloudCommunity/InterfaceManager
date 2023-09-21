@@ -6,7 +6,6 @@ import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.command.annotation.Command;
 import fr.joupi.im.utils.command.annotation.SubCommand;
 import lombok.Data;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @Data

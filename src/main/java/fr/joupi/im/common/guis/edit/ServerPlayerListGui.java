@@ -62,9 +62,8 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
     @Override
     public GuiButton previousPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getLeftArrowSkull()).setName("&cRetour").build(), event -> {
-            if (!getPagination().hasPrevious(getPage())) return;
-
-            updatePage(getPagination().getPrevious(getPage()));
+            if (getPagination().hasPrevious(getPage()))
+                updatePage(getPagination().getPrevious(getPage()));
         });
     }
 

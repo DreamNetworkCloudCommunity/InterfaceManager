@@ -23,9 +23,8 @@ public class ServerPlayerWhitelistedGui extends PageableGui<InterfaceManager, Pl
         this.server = server;
         this.fromStatic = fromStatic;
 
-        getPlugin().get().getMaintenanceManager()
-                .getMaintenanceServer(server)
-                .getWhitelists().forEach(s -> getPagination().addElement(new PlayerWhitelistButton(plugin, server, s, fromStatic)));
+        getPlugin().get().getMaintenanceManager().getMaintenanceServer(server).getWhitelists()
+                .forEach(s -> getPagination().addElement(new PlayerWhitelistButton(plugin, server, s, fromStatic)));
     }
 
     @Override
@@ -45,18 +44,16 @@ public class ServerPlayerWhitelistedGui extends PageableGui<InterfaceManager, Pl
     @Override
     public GuiButton nextPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getRightArrowSkull()).setName("&aSuivant").build(), event -> {
-            if (!getPagination().hasNext(getPage())) return;
-
-            updatePage(getPagination().getNext(getPage()));
+            if (getPagination().hasNext(getPage()))
+                updatePage(getPagination().getNext(getPage()));
         });
     }
 
     @Override
     public GuiButton previousPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getLeftArrowSkull()).setName("&cRetour").build(), event -> {
-            if (!getPagination().hasPrevious(getPage())) return;
-
-            updatePage(getPagination().getPrevious(getPage()));
+            if (getPagination().hasPrevious(getPage()))
+                updatePage(getPagination().getPrevious(getPage()));
         });
     }
 }

@@ -29,7 +29,7 @@ public class ServerEditGui extends Gui<InterfaceManager> {
         setItem(20, new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cÉteindre le serveur").build(), event -> {
             getServer().stop();
             close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aLe serveur &b" + getServer().getFullName() + " &as'est éteint");
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aLe serveur &b" + getServer().getFullName().split("/")[1] + " &as'est éteint");
         }));
 
         setItem(22, new GuiButton(new ItemBuilder(Material.PAINTING).setName("&7» &eMaintenance").build(),

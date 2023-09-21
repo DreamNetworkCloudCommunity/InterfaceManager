@@ -25,11 +25,9 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
         super(plugin, "&7» &e" + StringUtils.capitalize(category.getName().split("/")[1]), 6, 21);
         this.category = category;
 
-        NetworkBaseAPI.getInstance()
-                .getServices()
+        NetworkBaseAPI.getInstance().getServices()
                 .get(category.getName())
-                .getServers()
-                .values()
+                .getServers().values()
                 .forEach(server -> getPagination().addElement(new ServerButton(plugin, server)));
     }
 
@@ -54,18 +52,16 @@ public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
     @Override
     public GuiButton nextPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getRightArrowSkull()).setName("&aSuivant").build(), event -> {
-            if (!getPagination().hasNext(getPage())) return;
-
-            updatePage(getPagination().getNext(getPage()));
+            if (getPagination().hasNext(getPage()))
+                updatePage(getPagination().getNext(getPage()));
         });
     }
 
     @Override
     public GuiButton previousPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getLeftArrowSkull()).setName("&cRetour").build(), event -> {
-            if (!getPagination().hasPrevious(getPage())) return;
-
-            updatePage(getPagination().getPrevious(getPage()));
+            if (getPagination().hasPrevious(getPage()))
+                updatePage(getPagination().getPrevious(getPage()));
         });
     }
 

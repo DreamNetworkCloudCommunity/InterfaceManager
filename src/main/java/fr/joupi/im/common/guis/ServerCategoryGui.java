@@ -24,10 +24,7 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
     public ServerCategoryGui(InterfaceManager plugin) {
         super(plugin, "&7» &eCatégories", 6, 10);
 
-        NetworkBaseAPI.getInstance()
-                .getServices()
-                .values()
-                .stream()
+        NetworkBaseAPI.getInstance().getServices().values().stream()
                 .filter(remoteService -> !remoteService.getRemoteBundle().isProxy())
                 .forEach(service -> getPagination().addElement(new ServerCategoryButton(plugin, service)));
     }
@@ -59,18 +56,16 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
     @Override
     public GuiButton nextPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getRightArrowSkull()).setName("&aSuivant").build(), event -> {
-            if (!getPagination().hasNext(getPage())) return;
-
-            updatePage(getPagination().getNext(getPage()));
+            if (getPagination().hasNext(getPage()))
+                updatePage(getPagination().getNext(getPage()));
         });
     }
 
     @Override
     public GuiButton previousPageButton() {
         return new GuiButton(new ItemBuilder(SkullBuilder.getLeftArrowSkull()).setName("&cRetour").build(), event -> {
-            if (!getPagination().hasPrevious(getPage())) return;
-
-            updatePage(getPagination().getPrevious(getPage()));
+            if (getPagination().hasPrevious(getPage()))
+                updatePage(getPagination().getPrevious(getPage()));
         });
     }
 
