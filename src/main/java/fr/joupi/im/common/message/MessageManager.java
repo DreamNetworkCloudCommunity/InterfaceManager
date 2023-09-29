@@ -1,25 +1,25 @@
 package fr.joupi.im.common.message;
 
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
+import be.alexandre01.dnplugin.api.connection.request.RequestType;
+import be.alexandre01.dnplugin.api.connection.request.channels.DNChannel;
+import be.alexandre01.dnplugin.api.connection.request.communication.ClientResponse;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.RequestType;
-import be.alexandre01.dnplugin.api.request.channels.DNChannel;
-import be.alexandre01.dnplugin.api.request.communication.ClientResponse;
 import be.alexandre01.dnplugin.api.utils.messages.Message;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
-import be.alexandre01.dnplugin.shaded.gson.internal.LinkedTreeMap;
-import be.alexandre01.dnplugin.shaded.netty.channel.ChannelHandlerContext;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.LinkedTreeMap;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.maintenance.MaintenanceServer;
 import fr.joupi.im.utils.AbstractHandler;
 import fr.joupi.im.utils.MaintenanceServerAdapter;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.threading.MultiThreading;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -51,11 +51,11 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendCommandToServer(String serverName, String command) {
-        DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, serverName, command);
+        DNSpigotAPI.getCommon().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, serverName, command);
     }
 
     public void sendStartServerMessage(String serverName) {
-        DNSpigotAPI.getInstance().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, serverName);
+        DNSpigotAPI.getCommon().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, serverName);
     }
 
     public void sendMaintenanceNewServerMessage(DNServer server) {
@@ -107,7 +107,7 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     @EventHandler
     public void onServerAttached(ServerAttachedEvent event) {
         DNSpigotAPI.getInstance().autoRefreshPlayers();
-        DNSpigotAPI.getInstance().getRequestManager().getClientHandler().getResponses().add(new ClientResponse() {
+        DNSpigotAPI.getCommon().getRequestManager().getClientHandler().getResponses().add(new ClientResponse() {
 
             @Override
             protected void onResponse(Message message, ChannelHandlerContext ctx) {

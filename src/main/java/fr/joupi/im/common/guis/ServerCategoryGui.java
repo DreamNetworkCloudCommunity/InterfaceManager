@@ -1,10 +1,7 @@
 package fr.joupi.im.common.guis;
 
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
-import be.alexandre01.dnplugin.api.objects.RemoteBundle;
-import be.alexandre01.dnplugin.api.objects.RemoteService;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.buttons.ServerCategoryButton;
 import fr.joupi.im.utils.Utils;
@@ -16,8 +13,6 @@ import fr.joupi.im.utils.item.SkullBuilder;
 import fr.joupi.im.utils.item.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.util.function.Predicate;
 
 public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCategoryButton> {
 

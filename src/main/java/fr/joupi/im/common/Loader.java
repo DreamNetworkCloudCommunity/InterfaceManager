@@ -1,7 +1,7 @@
 package fr.joupi.im.common;
 
+import be.alexandre01.dnplugin.api.connection.request.channels.DNChannel;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
-import be.alexandre01.dnplugin.api.request.channels.DNChannel;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import fr.joupi.im.InterfaceManager;
