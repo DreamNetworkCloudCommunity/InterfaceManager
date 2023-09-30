@@ -3,10 +3,7 @@
 
 ## Instruction
 
-**NE PAS OUBLIER DE METTRE EN VERSION DITE "BUILDS" DE DREAMNETWORK**
-**DANS LE FICHIER "launcher.info" SANS ÇA RIEN NE MARCHE !!!!!!!**
-
-![](img/1.png)
+**POUR LE BON FONCTIONNEMENT DU PLUGIN MERCI DE BIEN VOULOIR METTRE LA DERNIERE VERSION DE DREAM**
 
 Placez le fichier "[DN] InterfaceManager-1.3-SNAPSHOT.jar" dans le dossier "addons"
 
