@@ -5,6 +5,8 @@
 
 **POUR LE BON FONCTIONNEMENT DU PLUGIN MERCI DE BIEN VOULOIR METTRE LA DERNIERE VERSION DE DREAM**
 
+Si vous avez la version SNAPSHOT de DreamNetwork veuillez installer "[DN] InterfaceManager-1.3-SNAPSHOT-old.jar" 
+
 Placez le fichier "[DN] InterfaceManager-1.3-SNAPSHOT.jar" dans le dossier "addons"
 
 #### ![](img/2.png)
@@ -32,4 +34,4 @@ Quelques screens ......
 
 ![](img/6.png)
 
-> Fait par Joupiter | Si vous avez quelques problèmes ou erreurs veuillez me contacté via le discord de DreamNetwork : https://discord.com/invite/BpqR7W32XJ
+> Fait par Joupiter | Si vous avez quelques problèmes ou erreurs veuillez me contacter via le discord de DreamNetwork : https://discord.com/invite/BpqR7W32XJ
