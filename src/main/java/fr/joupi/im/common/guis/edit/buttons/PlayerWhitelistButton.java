@@ -16,7 +16,7 @@ public class PlayerWhitelistButton extends GuiButton {
                 event -> {
                     plugin.get().getMaintenanceManager().removePlayerInWhitelist(server, playerName);
                     new ServerPlayerWhitelistedGui(plugin, server, fromStatic).onOpen((Player) event.getWhoClicked());
-                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez supprimer &e" + playerName + " &ade la maintenance du serveur &b" + server.getFullName().split("/")[1]);
+                    Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez supprimer &e" + playerName + " &ade la maintenance du serveur &b" + server.getName().split("/")[1]);
         });
     }
 

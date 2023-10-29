@@ -17,7 +17,7 @@ public class ServerStaticEditGui extends Gui<InterfaceManager> {
     private final DNServer server;
 
     public ServerStaticEditGui(InterfaceManager plugin, DNServer server) {
-        super(plugin, "&7» &a" + server.getFullName().split("/")[1], 5);
+        super(plugin, "&7» &a" + server.getName().split("/")[1], 5);
         this.server = server;
     }
 
@@ -32,7 +32,7 @@ public class ServerStaticEditGui extends Gui<InterfaceManager> {
                 event -> new ServerPlayerListGui(getPlugin(), getServer(), true).onOpen((Player) event.getWhoClicked())));
 
         setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour").build(),
-                event -> new ServerStaticGui(getPlugin(), getServer().getRemoteService()).onOpen((Player) event.getWhoClicked())));
+                event -> new ServerStaticGui(getPlugin(), getServer().getRemoteExecutor()).onOpen((Player) event.getWhoClicked())));
     }
 /*
 ⣿⣿⣿⡇⣼⣿⣿⡙⢇⡀⡀⡀⡀⢋⠥⢒⣛⣉⠉⠙⠛⣿⣧⡩⡘⣿⣿⣿⣿⣿

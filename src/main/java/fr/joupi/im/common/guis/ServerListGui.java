@@ -1,7 +1,7 @@
 package fr.joupi.im.common.guis;
 
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
-import be.alexandre01.dnplugin.api.objects.RemoteService;
+import be.alexandre01.dnplugin.api.objects.RemoteExecutor;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.guis.buttons.ServerButton;
@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
 @Getter
 public class ServerListGui extends PageableGui<InterfaceManager, GuiButton> {
 
-    private final RemoteService category;
+    private final RemoteExecutor category;
 
-    public ServerListGui(InterfaceManager plugin, RemoteService category) {
+    public ServerListGui(InterfaceManager plugin, RemoteExecutor category) {
         super(plugin, "&7» &e" + StringUtils.capitalize(category.getName().split("/")[1]), 6, 21);
         this.category = category;
 

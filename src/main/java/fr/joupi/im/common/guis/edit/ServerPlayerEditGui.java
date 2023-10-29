@@ -48,21 +48,21 @@ public class ServerPlayerEditGui extends Gui<InterfaceManager> {
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick le joueur").build(), event -> {
             getPlugin().get().getMessageManager().sendKickPlayerMessage(getServer(), getDnPlayer());
             close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick &e" + getDnPlayer().getName() + " &adu serveur &b" + getServer().getFullName().split("/")[1]);
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick &e" + getDnPlayer().getName() + " &adu serveur &b" + getServer().getName().split("/")[1]);
         });
     }
 
     private GuiButton teleportToPlayerButton() {
         return new GuiButton(new ItemBuilder(Material.COMPASS).setName("&7» &eTéléportation vers ce joueur").build(), event -> {
-            if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getFullName().equals(getDnPlayer().getServer().getFullName())) {
+            if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getName().equals(getDnPlayer().getServer().getName())) {
                 close((Player) event.getWhoClicked());
                 event.getWhoClicked().teleport(Bukkit.getPlayer(getDnPlayer().getName()));
             } else {
-                DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnPlayer().getServer().getFullName());
+                DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnPlayer().getServer().getName());
                 getPlugin().get().getMessageManager().sendTeleportPlayerMessage(getServer(), (Player) event.getWhoClicked(), getDnPlayer());
             }
 
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getFullName().split("/")[1]);
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez été téléporter vers &e" + getDnPlayer().getName() + " &asur le serveur &b" + getServer().getName().split("/")[1]);
         });
     }
 

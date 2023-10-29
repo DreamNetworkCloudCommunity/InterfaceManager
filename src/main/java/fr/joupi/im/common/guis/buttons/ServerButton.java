@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 public class ServerButton extends GuiButton {
 
     public ServerButton(InterfaceManager plugin, DNServer server)  {
-        setItemStack(new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getFullName().split("/")[1])
-                .addLore("", "&7État: " + (server.getRemoteService().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + Utils.getServerVersion(server), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier").build());
+        setItemStack(new ItemBuilder(Material.PAPER).setAmount(server.getPlayers().size()).setName("&7» &a" + server.getName().split("/")[1])
+                .addLore("", "&7État: " + (server.getRemoteExecutor().isStarted() ? "&aOn" : "&cOff"), "&7Version: &b" + Utils.getServerVersion(server), "&7Joueurs: &b" + server.getPlayers().size(), "", "&eClic gauche pour se téléporter", "&eClic droit pour modifier").build());
 
         setClickEvent(event -> {
             Player player = (Player) event.getWhoClicked();
@@ -29,7 +29,7 @@ public class ServerButton extends GuiButton {
             if (server.getPlayers().stream().map(DNPlayer::getName).noneMatch(s -> s.equals(player.getName())))
                 DNSpigotAPI.getInstance().sendPlayerTo(player, server);
             else
-                Utils.sendMessages(player, "&aVous êtes déjà connecté au serveur &b" + StringUtils.capitalize(server.getFullName().split("/")[1]));
+                Utils.sendMessages(player, "&aVous êtes déjà connecté au serveur &b" + StringUtils.capitalize(server.getName().split("/")[1]));
         });
     }
 

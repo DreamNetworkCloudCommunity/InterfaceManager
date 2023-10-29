@@ -3,12 +3,13 @@ package fr.joupi.im.common.message;
 import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.connection.request.RequestType;
 import be.alexandre01.dnplugin.api.connection.request.channels.DNChannel;
-import be.alexandre01.dnplugin.api.connection.request.communication.ClientResponse;
+import be.alexandre01.dnplugin.api.connection.request.communication.ClientReceiver;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.api.utils.messages.Message;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
+import be.alexandre01.dnplugin.shaded.netty.channel.ChannelHandlerContext;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +20,6 @@ import fr.joupi.im.utils.AbstractHandler;
 import fr.joupi.im.utils.MaintenanceServerAdapter;
 import fr.joupi.im.utils.Utils;
 import fr.joupi.im.utils.threading.MultiThreading;
-import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -59,7 +59,7 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendMaintenanceNewServerMessage(DNServer server) {
-        if (!Utils.getServerName().equals(server.getFullName()))
+        if (!Utils.getServerName().equals(server.getName()))
             server.sendMessage(new Message().set(getOrderID(), Messages.NEW_SERVER.getName()).set("list", new ArrayList<>(getPlugin().get().getMaintenanceManager().getWhitelists().values())));
     }
 
@@ -107,21 +107,18 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     @EventHandler
     public void onServerAttached(ServerAttachedEvent event) {
         DNSpigotAPI.getInstance().autoRefreshPlayers();
-        DNSpigotAPI.getCommon().getRequestManager().getClientHandler().getResponses().add(new ClientResponse() {
-
+        DNSpigotAPI.getCommon().getRequestManager().getClientHandler().addResponse(new ClientReceiver() {
             @Override
-            protected void onResponse(Message message, ChannelHandlerContext ctx) {
+            public void onReceive(Message message, ChannelHandlerContext ctx) {
                 if (message.contains(getOrderID())) {
 
                     if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName())) {
-                        ArrayList<LinkedTreeMap<String, Object>> treeMapArrayList = (ArrayList<LinkedTreeMap<String, Object>>) message.get("list");
-                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(treeMapArrayList), new TypeToken<List<MaintenanceServer>>() {}.getType());
+                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(message.get("list")), new TypeToken<List<MaintenanceServer>>() {}.getType());
                         list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
                     }
 
                     if (message.getString(getOrderID()).equals(Messages.UPDATE_MAINTENANCE_DATA.getName())) {
-                        LinkedTreeMap<String, Object> objectLinkedTreeMap = (LinkedTreeMap<String, Object>) message.get("object");
-                        MaintenanceServer maintenanceServer = getGson().fromJson(getGson().toJson(objectLinkedTreeMap), MaintenanceServer.class);
+                        MaintenanceServer maintenanceServer = getGson().fromJson(getGson().toJson(message.get("object")), MaintenanceServer.class);
 
                         if (message.contains(Messages.UPDATE_MAINTENANCE_STATUS.getName()))
                             executeCommand(maintenanceServer.getServerName(), "whitelist " + (maintenanceServer.isWhitelisted() ? "on" : "off"));

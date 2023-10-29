@@ -37,12 +37,12 @@ public class MaintenanceManager extends AbstractHandler<InterfaceManager> {
 
     public void removePlayerInWhitelist(DNServer server, String playerName) {
         getMaintenanceServer(server).getWhitelists().remove(playerName);
-        getPlugin().get().getMessageManager().sendMaintenanceRemoveListMessage(getWhitelists().get(server.getFullName()), playerName);
+        getPlugin().get().getMessageManager().sendMaintenanceRemoveListMessage(getWhitelists().get(server.getName()), playerName);
     }
 
     public void addPlayerInWhitelist(DNServer server, String playerName) {
         getMaintenanceServer(server).getWhitelists().add(playerName);
-        getPlugin().get().getMessageManager().sendMaintenanceAddListMessage(getWhitelists().get(server.getFullName()), playerName);
+        getPlugin().get().getMessageManager().sendMaintenanceAddListMessage(getWhitelists().get(server.getName()), playerName);
     }
 
     public boolean contains(DNServer server, String playerName) {
@@ -50,7 +50,7 @@ public class MaintenanceManager extends AbstractHandler<InterfaceManager> {
     }
 
     public MaintenanceServer getMaintenanceServer(DNServer server) {
-        return getWhitelists().get(server.getFullName());
+        return getWhitelists().get(server.getName());
     }
 
 }

@@ -28,7 +28,7 @@ public class Loader extends AbstractHandler<InterfaceManager> {
     private final MessageManager messageManager;
     private final MaintenanceManager maintenanceManager;
 
-    private final Cache<UUID, DNServer> playerInChatConfirmations;
+    private final Cache<UUID, DNServer> chatCache;
 
     public Loader(InterfaceManager plugin) {
         super(plugin);
@@ -37,7 +37,7 @@ public class Loader extends AbstractHandler<InterfaceManager> {
         this.commandHandler = new CommandHandler(plugin, "im");
         this.messageManager = new MessageManager(plugin);
         this.maintenanceManager = new MaintenanceManager(plugin);
-        this.playerInChatConfirmations = CacheBuilder.newBuilder().expireAfterWrite(60, TimeUnit.SECONDS).build();
+        this.chatCache = CacheBuilder.newBuilder().expireAfterWrite(60, TimeUnit.SECONDS).build();
 
         this.load();
     }

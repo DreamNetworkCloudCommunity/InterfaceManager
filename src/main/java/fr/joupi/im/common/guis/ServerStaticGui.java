@@ -1,6 +1,6 @@
 package fr.joupi.im.common.guis;
 
-import be.alexandre01.dnplugin.api.objects.RemoteService;
+import be.alexandre01.dnplugin.api.objects.RemoteExecutor;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import fr.joupi.im.InterfaceManager;
@@ -17,10 +17,10 @@ import org.bukkit.entity.Player;
 @Getter
 public class ServerStaticGui extends Gui<InterfaceManager> {
 
-    private final RemoteService service;
+    private final RemoteExecutor service;
     private final DNServer dnServer;
 
-    public ServerStaticGui(InterfaceManager plugin, RemoteService service) {
+    public ServerStaticGui(InterfaceManager plugin, RemoteExecutor service) {
         super(plugin, "&7» &a" + service.getName().split("/")[1], 5);
         this.service = service;
         this.dnServer = service.getServers().get(1);
@@ -34,8 +34,8 @@ public class ServerStaticGui extends Gui<InterfaceManager> {
                 new GuiButton(new ItemBuilder(Material.PAPER).setAmount(0).setName("&7» &a" + getService().getName().split("/")[1]).addLore("", "&7État: &cOff", "&7Version: &cN/A", "&7Joueurs: &b0", "", "&7(Serveur éteint)").build()) :
                 new GuiButton(new ItemBuilder(Material.PAPER).setAmount(getDnServer().getPlayers().size()).setName("&a" + getService().getName().split("/")[1]).addLore("", "&7État: &aOn", "&7Version: &b" + Utils.getServerVersion(getDnServer()), "&7Joueurs: &b" + getDnServer().getPlayers().size(), "", "&eClic gauche pour se téléporter").build(),
                         event -> {
-                            if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getFullName().equals(getDnServer().getFullName()))
-                                Utils.sendMessages((Player) event.getWhoClicked(), "&aVous êtes déjà sur le serveur &b" + getDnServer().getFullName().split("/")[1]);
+                            if (Utils.findPlayer((Player) event.getWhoClicked()).getServer().getName().equals(getDnServer().getName()))
+                                Utils.sendMessages((Player) event.getWhoClicked(), "&aVous êtes déjà sur le serveur &b" + getDnServer().getName().split("/")[1]);
                             else
                                 DNSpigotAPI.getInstance().sendPlayerTo((Player) event.getWhoClicked(), getDnServer());
                         }));

@@ -16,7 +16,7 @@ public class InterfaceCommand<P extends InterfaceManager> {
     @Command(name = "im", aliases = {"interfacemanager"}, permission = "im.admin,im.command.menu")
     public void execute(Player player) {
         new ServerCategoryGui(plugin).onOpen(player);
-        getPlugin().get().getPlayerInChatConfirmations().asMap().remove(player.getUniqueId());
+        getPlugin().get().getChatCache().invalidate(player.getUniqueId());
     }
 
     @SubCommand(name = "list", parent = "im", permission = "im.admin,im.command.list")
@@ -27,7 +27,7 @@ public class InterfaceCommand<P extends InterfaceManager> {
             commandSender.sendMessage(Utils.coloredText(" "));
             commandSender.sendMessage(Utils.coloredText(" &7• &6" + service.getName().split("/")[1]));
             service.getServers().values().forEach(
-                    server -> commandSender.sendMessage(Utils.coloredText(" &7 &7- &a" + server.getFullName().split("/")[1] + " &7| &b" + Utils.getServerVersion(server) + " &7(" + server.getPlayers().size() + ")")));
+                    server -> commandSender.sendMessage(Utils.coloredText(" &7 &7- &a" + server.getName().split("/")[1] + " &7| &b" + Utils.getServerVersion(server) + " &7(" + server.getPlayers().size() + ")")));
 
         });
     }

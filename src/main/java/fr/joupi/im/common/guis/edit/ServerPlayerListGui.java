@@ -71,7 +71,7 @@ public class ServerPlayerListGui extends PageableGui<InterfaceManager, PlayerBut
         return new GuiButton(new ItemBuilder(Material.BARRIER).setName("&7» &cKick tout les joueurs").build(), event -> {
             getPlugin().get().getMessageManager().sendKickAllPlayerMessage(getServer());
             close((Player) event.getWhoClicked());
-            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick tout les joueurs du serveur &b" + getServer().getFullName().split("/")[1]);
+            Utils.sendMessages((Player) event.getWhoClicked(), "&aVous avez kick tout les joueurs du serveur &b" + getServer().getName().split("/")[1]);
         });
     }
 
