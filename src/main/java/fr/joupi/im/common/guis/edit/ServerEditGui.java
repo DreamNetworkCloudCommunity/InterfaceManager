@@ -41,6 +41,8 @@ public class ServerEditGui extends Gui<InterfaceManager> {
         setItem(40, new GuiButton(new ItemBuilder(Material.WOOD_DOOR).setName("&7» &cRetour à la liste des serveurs").build(),
                 event -> new ServerListGui(getPlugin(), getServer().getRemoteExecutor()).onOpen((Player) event.getWhoClicked())));
     }
+
+}
 /*
 ⣿⣿⣿⣿⣿⣿⣿⡟⣫⣥⣶⣶⣦⣬⣍⠛⣩⣴⣶⣬⣍⠻⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⡿⠋⣾⣿⢛⣩⣥⣶⣶⣤⣄⢻⣛⣋⣉⣉⣓⠈⢿⣿⣿⣿⣿⣿⣿
@@ -59,4 +61,3 @@ public class ServerEditGui extends Gui<InterfaceManager> {
 ⡀⡀⡀⡀⡀⡀⡀⠙⠻⣿⡀⡀⡀⡀⣀⣀⠘⢃⡀⡀⡀⡀⡀⣸⡀⡀⡀⡀⠈⡀
 ⡀⡀⡀⡀⡀⡀⡀⡀⡀⡀⠈⠳⠶⠂⢻⣿⣯⣿⣿⠜⠗⠒⠒⠚⠁⡀⡀⡀⡀⡀
  */
-}

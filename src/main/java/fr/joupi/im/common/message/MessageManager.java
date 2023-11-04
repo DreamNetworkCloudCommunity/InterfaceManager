@@ -4,16 +4,15 @@ import be.alexandre01.dnplugin.api.NetworkBaseAPI;
 import be.alexandre01.dnplugin.api.connection.request.RequestType;
 import be.alexandre01.dnplugin.api.connection.request.channels.DNChannel;
 import be.alexandre01.dnplugin.api.connection.request.communication.ClientReceiver;
+import be.alexandre01.dnplugin.api.objects.RemoteExecutor;
 import be.alexandre01.dnplugin.api.objects.player.DNPlayer;
 import be.alexandre01.dnplugin.api.objects.server.DNServer;
 import be.alexandre01.dnplugin.api.utils.messages.Message;
 import be.alexandre01.dnplugin.plugins.spigot.api.DNSpigotAPI;
 import be.alexandre01.dnplugin.plugins.spigot.api.events.server.ServerAttachedEvent;
 import be.alexandre01.dnplugin.shaded.netty.channel.ChannelHandlerContext;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.LinkedTreeMap;
 import fr.joupi.im.InterfaceManager;
 import fr.joupi.im.common.maintenance.MaintenanceServer;
 import fr.joupi.im.utils.AbstractHandler;
@@ -27,7 +26,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -55,32 +53,32 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendStartServerMessage(String serverName) {
-        DNSpigotAPI.getCommon().getRequestManager().sendRequest(RequestType.CORE_START_SERVER, serverName);
+        DNSpigotAPI.getCommon().getByName(serverName).ifPresent(RemoteExecutor::start);
     }
 
     public void sendMaintenanceNewServerMessage(DNServer server) {
         if (!Utils.getServerName().equals(server.getName()))
-            server.sendMessage(new Message().set(getOrderID(), Messages.NEW_SERVER.getName()).set("list", new ArrayList<>(getPlugin().get().getMaintenanceManager().getWhitelists().values())));
+            server.writeAndFlush(new Message().set(getOrderID(), Messages.NEW_SERVER.getName()).set("list", new ArrayList<>(getPlugin().get().getMaintenanceManager().getWhitelists().values()), MaintenanceServer.class));
     }
 
     public void sendMaintenanceUpdateMessage(MaintenanceServer maintenanceServer) {
         NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
-                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set("object", maintenanceServer))));
+                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).setCustomObject("object", maintenanceServer, MaintenanceServer.class))));
     }
 
     public void sendMaintenanceUpdateStatusMessage(MaintenanceServer maintenanceServer) {
         NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
-                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_STATUS.getName(), maintenanceServer.isWhitelisted()).set("object", maintenanceServer))));
+                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_STATUS.getName(), maintenanceServer.isWhitelisted()).setCustomObject("object", maintenanceServer, MaintenanceServer.class))));
     }
 
     public void sendMaintenanceAddListMessage(MaintenanceServer maintenanceServer, String playerName) {
         NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
-                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_ADD.getName(), playerName).set("object", maintenanceServer))));
+                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_ADD.getName(), playerName).setCustomObject("object", maintenanceServer, MaintenanceServer.class))));
     }
 
     public void sendMaintenanceRemoveListMessage(MaintenanceServer maintenanceServer, String playerName) {
         NetworkBaseAPI.getInstance().getServices().values().forEach(remoteService ->
-                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_REMOVE.getName(), playerName).set("object", maintenanceServer))));
+                remoteService.getServers().values().forEach(server -> sendMessage(server, new Message().set(getOrderID(), Messages.UPDATE_MAINTENANCE_DATA.getName()).set(Messages.UPDATE_MAINTENANCE_LIST_REMOVE.getName(), playerName).setCustomObject("object", maintenanceServer, MaintenanceServer.class))));
     }
 
     public void sendKickAllPlayerMessage(DNServer server) {
@@ -96,7 +94,7 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
     }
 
     public void sendMessage(DNServer server, Message message) {
-        server.sendMessage(message);
+        server.writeAndFlush(message);
     }
 
     private void executeCommand(String serverName, String command) {
@@ -112,13 +110,11 @@ public class MessageManager extends AbstractHandler<InterfaceManager> implements
             public void onReceive(Message message, ChannelHandlerContext ctx) {
                 if (message.contains(getOrderID())) {
 
-                    if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName())) {
-                        List<MaintenanceServer> list = getGson().fromJson(getGson().toJson(message.get("list")), new TypeToken<List<MaintenanceServer>>() {}.getType());
-                        list.forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
-                    }
+                    if (message.getString(getOrderID()).equals(Messages.NEW_SERVER.getName()))
+                        message.getList("list", MaintenanceServer.class).forEach(maintenanceServer -> getPlugin().get().getMaintenanceManager().getWhitelists().putIfAbsent(maintenanceServer.getServerName(), maintenanceServer));
 
                     if (message.getString(getOrderID()).equals(Messages.UPDATE_MAINTENANCE_DATA.getName())) {
-                        MaintenanceServer maintenanceServer = getGson().fromJson(getGson().toJson(message.get("object")), MaintenanceServer.class);
+                        MaintenanceServer maintenanceServer = message.get("object", MaintenanceServer.class);
 
                         if (message.contains(Messages.UPDATE_MAINTENANCE_STATUS.getName()))
                             executeCommand(maintenanceServer.getServerName(), "whitelist " + (maintenanceServer.isWhitelisted() ? "on" : "off"));

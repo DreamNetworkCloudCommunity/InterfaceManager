@@ -2,6 +2,7 @@ package fr.joupi.im.common.maintenance;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 
@@ -10,11 +11,15 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class MaintenanceServer {
 
-    private final String serverName;
+    private String serverName;
     private List<String> whitelists;
-    private boolean isWhitelisted;
+    private boolean whitelisted;
+
+}
+
 /*
 ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⡶⠂⣀⣤⣤⣶⣶⣶⣶⣶⣤⣄⡒⢶⣶⣶⣶⣶⣶
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⣀⣶⣿⠋⠉⠉⠈⠙⢿⣿⣿⣿⣿⣦⠙⠋⠙⣿⣿
@@ -32,4 +37,3 @@ public class MaintenanceServer {
 ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⡄⠈⠉⠉⠁⠄⠄⠄⠄⠄⢻
 ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
  */
-}

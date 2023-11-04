@@ -73,6 +73,8 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
                                 close((Player) event.getWhoClicked());
                     }).onOpen((Player) event.getWhoClicked()));
     }
+
+}
 /*
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢛⣋⣩⣭⣭⣭⣭⣭⣙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⡁⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡜⣿⠟⣛⡛⣿⣿⣿⣿⣿
@@ -88,4 +90,3 @@ public class ServerCategoryGui extends PageableGui<InterfaceManager, ServerCateg
 ⣿⡿⣡⣿⣭⣭⣍⣘⣫⢠⡶⠿⢛⣻⣿⣿⣦⣙⣛⠏⠾⡿⢸⣿⣿⢸⣿⣿⣿⣿
 ⣿⡇⣿⣿⣿⣿⣿⣿⣿⡆⠶⠟⣛⣍⣿⣿⣿⣿⣿⣿⣷⣦⣍⠻⣿⢸⣿⣿⣿⣿
  */
-}

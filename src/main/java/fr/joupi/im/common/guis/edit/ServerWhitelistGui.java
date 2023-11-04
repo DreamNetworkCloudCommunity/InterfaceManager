@@ -25,7 +25,6 @@ public class ServerWhitelistGui extends Gui<InterfaceManager> {
 
     @Override
     public void setup() {
-
         setItems(getBorders(), XMaterial.CYAN_STAINED_GLASS_PANE.parseItem());
 
         setItem(20, new GuiButton(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setName("&7» &eJoueurs").addLore(" ", "&7Clic pour voir la liste des", "&7joueurs dans la maintenance").build(),
